@@ -1,2 +1,2 @@
-# front-end-interview
-A handful book for front-end interivew
+# 前端面试小册 front-end-interview
+A handful book of front-end interview
