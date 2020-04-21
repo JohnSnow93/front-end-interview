@@ -6,6 +6,7 @@ module.exports = {
             { text: '基础', link: '/base/' },
             { text: '进阶', link: '/advance/' },
             { text: '面试与简历', link: '/interview/' },
+            // { text: '前端网址导航', link: 'https://github.com/JohnSnow93/front-end-interview' },
             { text: 'Github', link: 'https://github.com/JohnSnow93/front-end-interview' },
         ],
         sidebar: {
