@@ -8,6 +8,7 @@ title: HTML相关面试题
 DOCTYPE是document type的简写，它是一种标记语言的文档类型声明，即告诉浏览器当前 HTML 是用什么版本编写的，DOCTYPE声明必须放到文档的最顶部。[HTML5和HTML4.x的DOCTYPE声明不同之处](#html5中变更或不再建议使用的部分)
 
 ### 如果没有写DOCTYPE会怎样
+没有写DOCTYPE会让浏览器以[怪异模式](#怪异模式和标准模式有什么区别)渲染网页。
 
 ## 对前端语义化的理解
 web 语义化是指通过 HTML 标记表示页面包含的信息，包含了 HTML 标签的语义化和 css 命名的语义化。 HTML 标签的语义化是指：通过使用包含语义的标签（如 h1-h6）恰当地表示文档结构。 css 命名的语义化是指：为 html 标签添加有意义的 class、id 补充未表达的语义。
@@ -51,13 +52,36 @@ HTML5新增的内容非常丰富，下面仅列出一些常见的部分：
     
     ```
 
-## 标准模式与兼容模式各有什么区别
+## 怪异模式和标准模式有什么区别
+目前浏览器的排版引擎使用三种模式：
+- 怪异模式/混杂模式（`Quirks Mode`）
+- 接近标准模式（`Almost Standards Mode`）
+- 标准模式（`Standards Mode`）
+
+在怪异模式下，排版会模拟 Navigator 4 与 Internet Explorer 5 的非标准行为。为了支持在网络标准被广泛采用前，就已经建好的网站，在标准模式下，表现出行为一般是由 HTML 与 CSS 的规范描述的行为。在接近标准模式下，只有少数的怪异行为被实现。
+
+没有正确的声明`DOCTYPE`可能会触发浏览器的`怪异模式`或`接近标准模式`。
+
+使用`document.compatMode`可以查看当前的浏览器渲染模式，该语句执行后有下面两种结果
+- `BackCompat` 文档为怪异模式
+- `CSS1Compat` 档处于标准模式或者准标准模式
 
 ## 移动端常见的meta标签有哪些，具体的意义是什么
 
-## viewport是什么
+## Viewport是什么
 
-## SEO
+## 前端常见的SEO手段有哪些
+1. 正确地设置网页的`title`, `keywords` 和 `description`
+    ```html
+    <head>
+       <title>网页标题</title>
+       <meta name="keywords" content="关键词1,关键词2,关键词3"/>
+       <meta name="description" content="网站的描述信息"/>
+    </head>
+    ```
+2. 正确地使用语义化标签，让页面结构容易被搜索引擎的爬虫解析。
+3. 避免使用`iframe`, 因为搜索引擎爬虫不会去解析`iframe`内的网页
+4. 如果网站是`SPA`(单页应用)，网页内容由JS生成，搜索引擎爬虫不易解析，此时应该考虑使用`SSR`(服务端渲染)或`PreRender`(预渲染)
 
 ## SVG与Canvas有什么区别
 - SVG 是一种使用 XML 描述 2D 图形的语言。
