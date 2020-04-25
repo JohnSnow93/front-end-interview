@@ -4,7 +4,7 @@ heroImage: /home.png
 heroText: 前端面试小册
 tagline: null
 actionText: 开始阅读 →
-actionLink: /zh/guide/
+actionLink: /base/
 features:
 - title: 面试导向
   details: 以面试题为主线，涵盖各种常见的前端知识点。

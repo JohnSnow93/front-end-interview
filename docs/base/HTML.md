@@ -37,15 +37,16 @@ HTML5新增的内容非常丰富，下面仅列出一些常见的部分：
 
 ### HTML5中变更或不再建议使用的部分
 - 移除纯表现的元素basefont ，big，center，font, s，strike，tt，u
-- HTML5的DOCTYPE 声明与之前不同。HTML 4.01 基于 [SGML](https://wiki.mbalib.com/wiki/SGML)，而 HTML 5 不基于 SGML，因此不需要对 DTD 进行引用
+- HTML5的DOCTYPE 声明不区分大小写
+- HTML5的DOCTYPE 声明内容与之前不同。HTML 4.01 基于 [SGML](https://wiki.mbalib.com/wiki/SGML)，而 HTML 5 不基于 SGML，因此不需要对 DTD 进行引用
     ```html
     <!-- HTML5的DOCTYPE -->
     <!DOCTYPE HTML>
     
     <!-- HTML4的三种DOCTYPE声明，基本不再使用，仅供了解 -->
-    <!-- 严格型：严格的DTD，不允许使用任何表现层的标识和属性 -->
+    <!-- 严格型：不允许使用表现性、废弃元素（如 font）以及 frameset -->
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-    <!-- 过渡型：宽松标准，允许在页面中使用HTML4.01的标识（符合xhtml语法标准） -->
+    <!-- 过渡型：允许使用表现性、废弃元素（如 font），不允许使用 frameset -->
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <!-- 框架型：用于框架集网页 -->
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
