@@ -69,7 +69,32 @@ HTML5新增的内容非常丰富，下面仅列出一些常见的部分：
 
 ## 移动端常见的meta标签有哪些，具体的意义是什么
 
-## Viewport是什么
+## Viewport是什么?
+Viewport(视口)它代表的是浏览器上(也可能是一个app中的WebView)用来显示网页的那部分区域。
+一般在桌面设备上，视口大小和浏览器的可视区域大小一致。而移动设备的尺寸一般较小，按照概念又可以分为`Layout Viewport`和`Visual Viewport`:
+- `Visual Viewport` 浏览器实际的显示网页部分的尺寸。其宽度可以通过`window.innerWidth`获取。
+- `Layout Viewport` 为了避免PC端的网站在移动端小屏幕上布局混乱，移动端浏览器会默认按照一个更大虚拟的视口用于渲染网页，这个虚拟的视口宽度可以通过`document.documentElement.clientWidth`获取。
+
+![Visual Viewport](./img/visula-viewport.png)
+![Layout Viewport](./img/laylout-viewport.png)
+
+### 使用meta标签控制移动端Viewport
+使用meta标签可以改变浏览器默认的Viewport(这里指的是`Layout Viewport`)。
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+```
+该meta标签的作用是让当前viewport的宽度等于设备的宽度，缩放比例为`1.0`，同时不允许用户手动缩放。
+
+下面是meta标签viewport的content内容的一些说明：
+|   配置  | 说明  |
+|  ----  | ----  |
+| width  | 设置layout viewport  的宽度，为一个正整数，或字符串"width-device" |
+| initial-scale  | 设置页面的初始缩放值，为一个数字，可以带小数 |
+| maximum-scale  | 允许用户的最大缩放值，为一个数字，可以带小数 |
+| minimum-scale  | 允许用户的最小缩放值，为一个数字，可以带小数 |
+| height  | 设置layout viewport  的高度，这个属性对我们并不重要，很少使用 |
+| user-scalable  | 是否允许用户进行缩放，值为"no"或"yes", no 代表不允许，yes代表允许 |
 
 ## 前端常见的SEO手段有哪些
 1. 正确地设置网页的`title`, `keywords` 和 `description`
@@ -100,5 +125,5 @@ HTML5新增的内容非常丰富，下面仅列出一些常见的部分：
 
 可以看出，有`async`属性的`<script>`执行时机是其加载结束后，如果有多个带`async`属性的`<script>`，他们的执行顺序不能得到保证。如果脚本之间有依赖关系，则不建议使用`async`属性。
 
-## iframe有那些缺点
+
 

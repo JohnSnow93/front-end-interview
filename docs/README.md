@@ -12,7 +12,7 @@ features:
   details: 每一篇文章长度适中，方便记忆和面试时复述。
 - title: 知识拓展
   details: 每个主题都有相关链接，方便感兴趣的同学可以对相关知识点进行深入和拓展。
-footer: MIT Licensed | Copyright © 2020-present Jon
+footer: 小册面试题均来自于网络收集，如有侵权请联系我
 ---
 ## 分类导航
 ### 基础
