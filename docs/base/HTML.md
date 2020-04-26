@@ -117,6 +117,27 @@ Viewport(视口)它代表的是浏览器上(也可能是一个app中的WebView)�
 - Canvas 是逐像素进行渲染的。在 canvas 中，一旦图形被绘制完成，它就不会继续得到浏览器的关注。如果其位置发生变化，那么整个场景也需要重新绘制，包括任何或许已被图形覆盖的对象。
 
 ## 说说你对WebSocket的理解和其应用
+WebSocket 是 HTML5 开始提供的一种在单个 TCP 连接上进行**全双工**通讯的协议。
+### WebSocket和传统HTTP协议有什么不同
+- HTTP被设计成无状态的协议，如果没有手动在header中声明`keep-alive`，每次请求完成就会关闭连接。
+- WebSocket协议是一种长连接，链接创建后会保持连接状态，并且客户端和服务端可以进行全双工通信，即同一时刻客户端和服务端都可以给对方发送数据，而HTTP做不到服务器主动给客户端推送数据。
+- HTTP请求在浏览器中会遇到跨域问题，而发起 WebSocket 没有同源限制，允许跨域。
+![WebSocket和http连接的不同](./img/websocket.png)
+
+### 说说WebSocket创建过程
+1. 创建WebSocket实例`const ws = new WebSocket('ws://121.40.165.18:8800')`
+2. 浏览器通过HTTP发起WebSocket握手请求，这个握手请求和一般的HTTP请求相比在Header中增加了下面几个字段
+    ```
+    Connection: Upgrade // 告诉服务器，接下来的连接协议需要升级
+    Upgrade: websocket // 告诉服务器，具体想升级成websocket协议，平时HTTP如要要使用`keep-alive`也会写到Upgrade字段中
+    Sec-WebSocket-Extensions: 
+    Sec-WebSocket-Key: 
+    Sec-WebSocket-Version: 13   // 客户端支持WebSocket的版本
+    ```
+3. 服务端返回HTTP状态码为`101(Switching Protocols)`，表示请求接受协议切换到`WebSocket`，连接建立成功。
+4. 建立连接之后数据通过TCP上的WebSocket协议进行传输，不在走HTTP协议
+
+### WebSocket如何断线重连
 
 ## 说说script标签的async和defer属性有什么不同
 在浏览器解析到`<script>`标签时，会停止暂停和渲染文档，转而加载`<script>`内的脚本并解析执行，`async`和`defer`可以让`<script>`在**加载**同时不阻塞DOM的解析。
