@@ -130,14 +130,28 @@ WebSocket 是 HTML5 开始提供的一种在单个 TCP 连接上进行**全双�
     ```
     Connection: Upgrade // 告诉服务器，接下来的连接协议需要升级
     Upgrade: websocket // 告诉服务器，具体想升级成websocket协议，平时HTTP如要要使用`keep-alive`也会写到Upgrade字段中
-    Sec-WebSocket-Extensions: 
-    Sec-WebSocket-Key: 
+    Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits //  协议扩展, 某类协议可能支持多个扩展，通过它可以实现协议增强
+    Sec-WebSocket-Key: UjxPJpGjxC4JH5+0znrYBg== // base64编码的随机16字节长的字符序列，用于和服务端握手
     Sec-WebSocket-Version: 13   // 客户端支持WebSocket的版本
     ```
 3. 服务端返回HTTP状态码为`101(Switching Protocols)`，表示请求接受协议切换到`WebSocket`，连接建立成功。
+    - 响应的Header中会有 `Sec-WebSocket-Accept`字段
+    - 只有当请求头参数`Sec-WebSocket-Key`字段的值经过固定算法加密后的数据和响应头里的`Sec-WebSocket-Accept`的值保持一致，该连接才会被认可建立
+    - 响应Header中的`Sec-WebSocket-Accept`计算方式为`base64(sha1(请求中的Sec-WebSocket-Key + 258EAFA5-E914-47DA-95CA-C5AB0DC85B11))`
 4. 建立连接之后数据通过TCP上的WebSocket协议进行传输，不在走HTTP协议
 
 ### WebSocket如何断线重连
+1. 通过**WebSocket实例**的readyState判断是否需要重新连接
+    **WebSocket实例**有如下几种状态：
+    - 0 (CONNECTING) 正在链接中
+    - 1 (OPEN) 已经链接并且可以通讯
+    - 2 (CLOSING) 连接正在关闭
+    - 3 (CLOSED) 连接已关闭或者没有链接成功
+
+    每次发送信息前，进行判断，如果**WebSocket实例**的readyState值为 2 或 3 , 则需要重新建立连接。
+
+2. 在**WebSocket实例**`onclose`和`onerror`时发起断线重连
+3. 心跳检测机制：客户端每隔一段时间向服务器发送信息，在约定时间间隔内收不到心跳或者其他任何通信消息时，客户端进行主动重连
 
 ## 说说script标签的async和defer属性有什么不同
 在浏览器解析到`<script>`标签时，会停止暂停和渲染文档，转而加载`<script>`内的脚本并解析执行，`async`和`defer`可以让`<script>`在**加载**同时不阻塞DOM的解析。
