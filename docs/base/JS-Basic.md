@@ -18,3 +18,4 @@ title: JavaScript基础面试题
 ## 什么是节流(`throttle`)和防抖(`debounce`)，手动实现节流和防抖
 ## 实现浅拷贝和深拷贝
 ## 说说前端储存数据 Cookie、LocalStorage、SessionStorage、IndexDB
+## JavaScript的垃圾回收机制是怎样的
