@@ -40,6 +40,22 @@ iframe 元素，可能具有自己的样式表，但它们不会继承父文档�
 - 注意：如果一个元素是行内元素，也是[可替换元素](#替换元素和非替换元素)，那它和块级元素一样可以设置宽高以及正常设置margin
 
 ## 什么是BFC
+BFC(`Block Formatting Context`) 是 块级格式化上下文。BFC表示的是浏览器中块状(block)的一块渲染区域，并且有一套渲染规则。
+
+指定一个元素为BFC，该元素满足如下规则中的一种即可:
+- html根元素
+- float的值**不是**none
+- position属性为absolute或fixed
+- display属性为 inline-block、table-cell、flex、inline-flex
+- overflow的值**不是**visible
+
+### BFC的布局规则
+- 内部的Box会在垂直方向，一个接一个地放置(按照正常文档流规则)。
+- Box垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠。
+每个元素的margin box的左边， 与包含块border box的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此。
+- BFC的区域不会与float box重叠。
+- BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。
+- 计算BFC的高度时，浮动元素也参与计算
 
 ## 清除浮动指的是什么，有哪些清除浮动的方法
 ## margin塌陷和margin合并
