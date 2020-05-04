@@ -58,6 +58,41 @@ BFC(`Block Formatting Context`) 是 块级格式化上下文。BFC表示的是�
 - 计算BFC的高度时，浮动元素也参与计算
 
 ## 清除浮动指的是什么，有哪些清除浮动的方法
+浮动的元素(`float`为`left`或`right`)会脱离正常的文档流，导致浮动元素的**父容器**不能正确地计算高度而影响到布局。一般所说的清除浮动是指清除浮动元素对其父元素造成的影响。
+
+目前清除浮动的方法从原理上可以分为两类：
+### 在浮动元素**父容器**的底部加入`clear: both`的空元素
+假设`.father`为父容器元素的class，`.son`为浮动的子元素，`.empty`为一个空的块级元素：
+```html
+<div class="father">
+  <div class="son"></div>
+  <div class="empty"></div>
+</div>
+```
+```css
+.son {
+  float: left;
+}
+.empty {
+  display: block; // 如果用的空元素本身就是款级元素，这行也可以省略
+  clear: both;
+}
+```
+CSS的`clear`属性的作用是，不允许元素左边`left` 、右边`right` 或 左右两边`both` 的方向上出现浮动元素。
+
+当我们在浮动元素(`.son`)的**父容器**(`.father`)的**末尾**插入了一个带有`clear: both`的块级元素(`.empty`)，由于这个块级元素(`.empty`)左右都不能出现浮动元素(`.son`)，所以浮动元素(`.son`)就会被挤到上方(也可以认为此时浮动元素(`.son`)把块级元素(`.empty`)挤到了下方)。此时，父容器(`.father`)计算高度时，会考虑到内部块级元素(`.empty`)所处的位置，导致父容器被强行撑开。
+
+每次对要清除浮动的父元素尾部添加空元素会产生多余的无意义DOM结构，也比较繁琐，现在一般使用CSS3的伪元素`::after`在父容器尾部插入空元素来达到相似的效果：
+```css
+.father::after{
+  content: " ";
+  display: block;
+  clear: both;
+}
+```
+
+### 触发BFC
+
 ## margin塌陷和margin合并
 ## 说说常用的CSS选择器
 ## CSS选择器的优先级是如何计算的
