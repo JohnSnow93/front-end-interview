@@ -20,7 +20,7 @@ footer: 小册面试题均来自于网络收集，如有侵权请联系我
 2. [CSS](/base/JavaScript/)
 3. [JavaScript](/base/JavaScript/)
 ### 进阶
-1. [React面试题](/)
+1. [React面试题](/advance/React/)
 1. [Vue面试题](/)
 2. [设计模式](/)
 3. [算法](/)
@@ -29,6 +29,5 @@ footer: 小册面试题均来自于网络收集，如有侵权请联系我
 1. [程序员简历编写](/)
 2. [面试中常见问题](/)
 ## 其他镜像
-本小册默认部署在Github Pages上，如果访问速度不佳，建议使用以下的镜像网站：
+本小册默认部署在Netlify上，如果访问速度不佳，建议使用以下的镜像网站：
 - Geetlee
-- Github
