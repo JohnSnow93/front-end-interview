@@ -31,9 +31,9 @@ module.exports = {
             // fallback
             '/': [
                 '',
-                'base',
-                'advance',
-                'interview'
+                // 'base',
+                // 'advance',
+                // 'interview'
             ]
         }
     }
