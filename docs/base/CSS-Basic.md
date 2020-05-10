@@ -164,9 +164,36 @@ CSS属性后插有`!important`的属性拥有最高优先级，若针对同一�
 
 CSS3的新特性有很多，上面仅列举了一些常用的部分。
 
-## line-height是如何计算的
-## 谈谈使用flex布局
+## 谈谈使用Flex布局
+Flex 是 Flexible Box 的缩写，意为"弹性布局"。
+
+任何一个容器都可以指定为Flex布局。行内元素也可以使用Flex布局：
+```css
+.box{
+  display: flex;
+}
+// 行内元素：
+.box{
+  display: inline-flex;
+}
+```
+设为Flex布局以后，子元素的`float`、`clear`和`vertical-align`属性将失效。
+
+采用 Flex 布局的元素，称为 Flex 容器（`flex container`）。它的所有子元素自动成为容器成员，称为 Flex 项目（`flex item`）
+
+容器默认存在两根轴：水平的主轴（`main axis`）和垂直的交叉轴（`cross axis`）, 如下图
+![flex容器](./img/flex.png)
+
+我们可以使用`justify-content`来指定元素在主轴上的排列方式，使用`align-items`来指定元素在交叉轴上的排列方式。还
+可以使用`flex-wrap`来规定当一行排列不下时的换行方式。
+
+对于容器中的项目，我们可以使用`order`属性来指定项目的排列顺序，还可以使用`flex-grow`来指定当排列空间有剩余的时候，
+项目的放大比例。还可以使用`flex-shrink`来指定当排列空间不足时，项目的缩小比例。
+
+详细资料请参考： [《Flex 布局教程：语法篇》](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html) [《Flex 布局教程：实例篇》](http://www.ruanyifeng.com/blog/2015/07/flex-examples.html)
+
 ## 用过哪些CSS预处理器他们之间的区别是什么
+
 ## 谈谈物理像素、逻辑像素、PPI、DPR
 ## 说说对响应式布局的理解
 ## 隐藏一个元素有哪些方法以及其区别
@@ -221,6 +248,13 @@ IE的条件注释是IE的私有写法，可以让HTML文档内的部分代码针
 - 优雅降级（`graceful degradation`）：一开始就构建完整的功能，然后再针对低版本浏览器进行兼容。
 
 区别：优雅降级是从复杂的现状开始，并试图减少用户体验的供给，而渐进增强则是从一个非常基础的、能够起作用的版本开始，并不断扩充，以适应未来环境的需要。
+
+## 什么是 FOUC?如何避免
+`Flash Of Unstyled Content`：当样式表晚于结构性HTML加载，当加载到此样式表后，页面将会重新渲染样式，造成页面闪烁。
+
+解决方法：
+- 把样式表放到文档的`<head>`中
+- 避免使用`@import`
 
 ## 前端常用的CSS优化手段
 
