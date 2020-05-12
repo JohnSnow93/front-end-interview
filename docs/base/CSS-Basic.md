@@ -192,9 +192,33 @@ Flex 是 Flexible Box 的缩写，意为"弹性布局"。
 
 详细资料请参考： [《Flex 布局教程：语法篇》](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html) [《Flex 布局教程：实例篇》](http://www.ruanyifeng.com/blog/2015/07/flex-examples.html)
 
-## 用过哪些CSS预处理器他们之间的区别是什么
+## 什么是CSS预处理器，说说自己常用的CSS预处理器
+是将类 CSS 语言通过 编译 转成浏览器可读的真正 CSS。在这层编译之上，便可以赋予 CSS 更多更强大的功能。
+常见的CSS 预处理器有 SASS、LESS、Stylus。
 
+常见的CSS预处理器可以支持 嵌套、变量、mixin复用、循环语句、条件语句 等纯CSS不具有的特性，加快开发效率。
 ## 谈谈物理像素、逻辑像素、PPI、DPR
+### 物理像素
+又称“设备像素”，设备屏幕实际拥有的像素点。比如iPhone 6的屏幕在宽度方向有750个像素点，高度方向有1334个像素点
+### 逻辑像素
+又称“设备独立像素”（Device Independent Pixel, DIP），可以理解为反映在CSS/JS代码里的像素点数。
+
+### DPR
+设备像素比（Device Pixel Ratio, DPR）：一个设备的物理像素与逻辑像素之比。
+
+通过`window.devicePixelRatio`可以获取当前设备的`DPR`
+### PPI
+屏幕像素密度（Pixels Per Inch），即每英寸(1英寸=2.54厘米)聚集的像素点个数，这里的一英寸是对角线长度。
+
+### 移动端1px问题
+在很多高分辨率的手机上，物理像素和逻辑像素不是一一对应的(即`DPR > 1`)，这就导致了，我们在CSS写下的`1px`长度，会渲染为两个甚至多个的物理像素，导致`1px`实际显示效果比预期的更宽。这就是移动端的`1px`问题。
+
+目前对于移动端1px有以下几种解决方案，目标是让移动端能够渲染出一个单位的物理像素：
+// TODO
+### transform法
+### 媒体查询
+### viewport
+
 ## 说说对响应式布局的理解
 ## 隐藏一个元素有哪些方法以及其区别
 ## 什么是CSS Hack、常见的CSS Hack
