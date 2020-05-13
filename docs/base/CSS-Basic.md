@@ -214,10 +214,80 @@ Flex 是 Flexible Box 的缩写，意为"弹性布局"。
 在很多高分辨率的手机上，物理像素和逻辑像素不是一一对应的(即`DPR > 1`)，这就导致了，我们在CSS写下的`1px`长度，会渲染为两个甚至多个的物理像素，导致`1px`实际显示效果比预期的更宽。这就是移动端的`1px`问题。
 
 目前对于移动端1px有以下几种解决方案，目标是让移动端能够渲染出一个单位的物理像素：
-// TODO
-### transform法
-### 媒体查询
-### viewport
+### 1. 媒体查询 + 浮点数像素单位
+通过`@media`可以查询当前设备的DPR，根据不同设备的DPR显示不同的粗细
+```css
+.border { border: 1px solid #999 }
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+    .border { border: 0.5px solid #999 }
+}
+@media screen and (-webkit-min-device-pixel-ratio: 3) {
+    .border { border: 0.333333px solid #999 }
+}
+```
+缺点：低版本安卓浏览器和IOS8以下的系统不支持小数的像素单位(px)
+### 2. 媒体查询 + 伪元素 + `transform`
+原理和上一条类似，不同的是使用伪元素绘制线条，再用transform来让线条变细
+```css
+/* 2倍屏 */
+@media only screen and (-webkit-min-device-pixel-ratio: 2.0) {
+    .border-bottom::after {
+        -webkit-transform: scaleY(0.5);
+        transform: scaleY(0.5);
+    }
+}
+/* 3倍屏 */
+@media only screen and (-webkit-min-device-pixel-ratio: 3.0) {
+    .border-bottom::after {
+        -webkit-transform: scaleY(0.33);
+        transform: scaleY(0.33);
+    }
+}
+```
+相比方案一的兼容性更好，更灵活
+### 3. `viewport` + `rem`
+根据设备的`window.devicePixelRatio`来动态修改viewport的缩放比例。同时由于viewport的`initial-scale`会被动态修改，我们应该搭配使用`rem`进行布局。
+```javascript
+var viewport = document.querySelector("meta[name=viewport]")
+
+if (window.devicePixelRatio == 2) {
+    viewport.setAttribute('content', 'width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no')
+} 
+if (window.devicePixelRatio == 3) {
+    viewport.setAttribute('content', 'width=device-width, initial-scale=0.333333333, maximum-scale=0.333333333, minimum-scale=0.333333333, user-scalable=no')
+} 
+
+// 动态修改viewport的缩放比例时，要记得修改根节点的fontSize来配合rem布局。
+var docEl = document.documentElement;
+var fontsize = 10 * (docEl.clientWidth / 320) + 'px';
+docEl.style.fontSize = fontsize;
+```
+该方案的缺点是要一开始就进行rem布局，不易适配老项目。
+
+### 4. `box-shadow`模拟边框
+使用`box-shadow`模拟一个边框，缺点是没有圆角且颜色不好控制
+```css
+div {
+    box-shadow: 0 1px 1px -1px rgba(0, 0, 0, 0.5);
+}
+```
+### 5. `border-image` 制作图片边框
+以四周都有边框为例，准备如下的6x6像素图片。
+[!border-image](./img/border-image.png)
+
+```css
+@media screen and (-webkit-min-device-pixel-ratio: 2){ 
+    .border{ 
+        border: 1px solid transparent;
+        border-image: url(border.gif) 2 stretch;
+    }
+}
+```
+上面这段css设置边框图片从2px开始裁切，并进行拉伸显示。
+
+缺点：需要提前准备图片素材，不易实现圆角
+
+关于`border-image`详见[CSS3 border-image 属性](https://www.runoob.com/cssref/css3-pr-border-image.html)
 
 ## 说说对响应式布局的理解
 ## 隐藏一个元素有哪些方法以及其区别
