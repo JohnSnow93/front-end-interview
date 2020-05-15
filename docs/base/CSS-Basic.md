@@ -289,8 +289,35 @@ div {
 
 关于`border-image`详见[CSS3 border-image 属性](https://www.runoob.com/cssref/css3-pr-border-image.html)
 
-## 说说对响应式布局的理解
-## 隐藏一个元素有哪些方法以及其区别
+## 说说对响应式的理解
+响应式(`Responsive`)是指在不同屏幕分辨率的终端上浏览网页有不同展示方式。通过响应式设计能使网站在手机和平板电脑上有更好的浏览阅读体验。
+
+实现响应式的要点：
+1. 设置适合移动端的meta标签
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+```
+
+2. 通过媒体查询(`media query`)来设置样式
+
+媒体查询(`media query`)是响应式的核心，通过CSS的`@media`可以针对不同的屏幕尺寸设置不同的样式。
+
+例如，根据屏幕的宽度针对iPad和iPhone设置相应的样式。
+```css
+/** iPad **/
+@media only screen and (min-width: 768px) and (max-width: 1024px) {}
+/** iPhone **/
+@media only screen and (min-width: 320px) and (max-width: 767px) {}
+```
+
+关于`@media`的详细使用方法请参考[CSS3 @media 查询](https://www.runoob.com/cssref/css3-pr-mediaquery.html)
+
+3. 布局时避免使用固定长度
+
+在进行响应式布局时，长度单位应该避免使用像素单位`px`的固定值，应使用百分比长度。或是考虑使用新的`rem`和`vh`作为长度单位，这样元素可以更好地适配移动端布局。
+
+
+## 隐藏一个元素有哪些方法
 ## 什么是CSS Hack、常见的CSS Hack
 早期不同浏览器对CSS解析能力不同，有些还有一些独特的BUG，CSS Hack是指利用这些特性来进行一些针对不同浏览器的兼容性处理。下面列举一些常见的CSS Hack方式：
 ### 浏览器前缀
