@@ -318,6 +318,35 @@ div {
 
 
 ## 隐藏一个元素有哪些方法
+1. `display: none` 元素将不会被渲染，也不会占据空间或影响布局。
+2. `visibility:hidden` 元素不可见，但依然会占据空间和影响布局。
+3. `opacity:0` 元素完全透明，但依然会占据空间和影响布局
+4. 设置足够小的`z-index`: `z-index:-1000`
+5. `transform: scale(0,0)` 缩放元素尺寸到0，但依然会占据空间和影响布局
+6. 绝对定位隐藏元素
+    ```css
+    .hide{
+        position：absolute;
+        left:-99999px;
+        top:-90999px;/* 不占据空间，无法点击 */
+    }
+    .hide-2{
+        position：relative;
+        left:-99999px;
+        top:-90999px;/* 占据空间，无法点击 */
+    }
+    ```
+7. `clip/clip-path` 裁剪元素(`clip`已被废弃，建议使用`clip-path`)
+    ```css
+    .hide{
+        position:absolute;/*fixed*/
+        clip:rect(top,right,bottom,left);/* 占据空间，无法点击 */
+    }
+    .hide_2 {
+      clip-path: polygon(0px 0px,0px 0px,0px 0px,0px 0px);
+    }
+    ```
+
 ## 什么是CSS Hack、常见的CSS Hack
 早期不同浏览器对CSS解析能力不同，有些还有一些独特的BUG，CSS Hack是指利用这些特性来进行一些针对不同浏览器的兼容性处理。下面列举一些常见的CSS Hack方式：
 ### 浏览器前缀
