@@ -93,7 +93,27 @@ line-height: 300px; // 行高设置为父元素高度
 ```
 
 
-## 使用CSS制作一个三角形
+## 使用`border`制作一个三角形
+原理：盒模型的四个border接缝处是一个斜边，每一个方向的border都是一个梯形，如下图:
+
+![边框实例](./img/borderShapeDemo.png)
+
+只要合理设置盒子的高宽并将部分边框颜色设置为`transparent`，就可以实现一个三角形。示例代码如下:
+```css
+#triangle-up{
+    width:0;
+    height:0;
+    border-left:50px solid transparent;
+    border-right:50px solid transparent;
+    border-bottom:100px solid red;
+}
+```
+效果如下：
+
+![三角形](./img/triangleUp.png)
+
+扩展问题：分别实现尖头方向朝着上下左右四个部同方向的三角形。
+
 
 ## 实现圣杯布局
 
