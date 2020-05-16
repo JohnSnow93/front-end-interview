@@ -1,9 +1,10 @@
 ---
 title: JavaScript基础面试题
 ---
+# JavaScript基础面试题
+
 [[toc]]
 
-# JavaScript基础面试题
 ## JavaScript基础数据类型有哪些
 ## JavaScript中的严格模式是什么
 ## 说说JavaScript中的闭包
