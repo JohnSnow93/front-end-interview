@@ -175,4 +175,26 @@ line-height: 300px; // 行高设置为父元素高度
   width: 150px;           
 }
 ```
-## CSS移动端适配方案有哪些
+## 常见的CSS移动端适配方案有哪些
+### `rem`适配方案
+这种方案被网易使用：布局使用`rem`作为基本的尺寸单位，js根据设备的屏幕尺寸动态计算出一个`font-size`的值，并将其设置到根节点`<html>`上。
+
+需设置`<meta name="viewport" content="initial-scale=1,maximum-scale=1, minimum-scale=1">`
+
+### `rem` + `viewport`缩放适配方案
+这种是淘宝使用的方案：布局使用`rem`作为基本的尺寸单位，除了动态计算出根节点的`font-size`外，还需要根据`DPR`动态修改viewport的缩放比例。
+
+以上两种方案共同点都是需使用`rem`作为布局基本尺寸单位，都需要动态计算`<html>`的`font-size`，且页面中字体大小不使用`rem`。不同点是对viewport的设置不同，计算`<html>`的`font-size`的方法也不同。具体详见[手机端rem布局详解](https://www.cnblogs.com/Sky-Ice/p/9596420.html)
+
+### `vw/vh`适配方案
+`vw/vh`是CSS3提出的新从长度单位：
+- vw : 1vw 等于视口宽度的1%
+- vh : 1vh 等于视口高度的1%
+
+![vh和vw](./img/vw_vh.jpg)
+
+1. 仅使用`vw`适配：根据设计稿尺寸直接换算出以`vw`为单位的元素尺寸，在网页中直接使用换算出的`vw`值。例如：设计稿宽度375px，某元素在设计稿中宽 150px，则它换算成vw的公式为 150px / 375px * 100vw = 10vw
+
+2. 使用`vw`+`rem`适配：根据设计稿计算出`<html>`的`font-size`值，以`vw`作其单位，页面中布局单位依然使用`rem`。例：假设设计稿为750px，我们希望1rem = 设计稿上的100px，计算公式为 100px / 750px * 100vw = 13.3333vw，设置根节点样式为 `html{font-size:13.3333vw}`
+
+兼容性：移动端 ios 8 以上以及 Android 4.4 以上支持
