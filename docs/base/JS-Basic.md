@@ -1,7 +1,7 @@
 ---
-title: JavaScript基础面试题
+title: JavaScript基础
 ---
-# JavaScript基础面试题
+# JavaScript基础
 
 [[toc]]
 

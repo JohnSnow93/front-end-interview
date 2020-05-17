@@ -1,3 +1,3 @@
 ---
-    title: CMD/AMD/UMD介绍
+    title: ES6+
 ---
