@@ -17,6 +17,7 @@ module.exports = {
                 'CSS-Practice',
                 'JS-Basic',
                 'ES6',
+                'BOMAndDOMAndBrowser',
                 // 'javascript'
                 // {
                 //     title: 'JavaScript',   // 必要的
