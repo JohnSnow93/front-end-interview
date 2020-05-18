@@ -8,6 +8,7 @@ title: JavaScript基础
 ## JavaScript基础数据类型有哪些
 ## JavaScript中的严格模式是什么
 ## 说说JavaScript中的闭包
+## 说说JavaScript中的闭包
 ## 描述一下JavaScript中的原型链
 ## 描述一下JavaScript中的作用域链
 ## ES5中实现继承
