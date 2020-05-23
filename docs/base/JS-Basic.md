@@ -43,7 +43,7 @@ var name
     - 提升在每个作用域中都会进行，在ES5中，可以被提升到的作用域是**函数级作用域**和**全局作用域**
     - **函数的定义**有例外情况：如果块级作用域(`if语句块`或`try...catch语句块`)中有函数定义，**函数定义**会提升到它所在的**块级作用域**的顶部。而`变量声明`的提升中则没有块级作用域的概念。
 
-注：ES6中的`let`、`const`和`class`声明不能在声明前被使用，否则会报`ReferenceError`错误。
+注：ES6中的`let`、`const`和`class`不能在声明前被使用，否则会报`ReferenceError`错误。
 
 例题：写出下面代码执行结果
 ```javascript
@@ -63,8 +63,76 @@ console.log("外部",a);
 ### 为什么会变量提升
 JS虽然是动态/解释型语言，但JS代码执行之前会有非常短暂的编译阶段，此时会对JS代码进行词法分析，在词法分析时遇到声明(包括变量定义和函数声明)，这些声明被添加到名为词法环境(`Lexical Environment`)的JavaScript数据结构内并保存在内存中(即将变量和其所在的词法作用域关联起来)，所以这些变量和函数能在它们真正被声明之前使用。
 
+## 什么是词法作用域
+词法作用域就是在你写代码时将变量和块作用域写在哪里来决定，也就是词法作用域是静态的作用域，在你书写代码时就确定了。
+
+注意，JS中不是所有的地方都是遵循词法作用域，在使用`eval`和`with`时有其单独的作用域。
+
 ## 简单说一下对闭包的理解
+在JS中，函数可以记住并访问所在的词法作用域，即使函数在当前词法作用域之外执行，这就产生了闭包。
+
+例子：
+```javascript
+function outerFunc() {
+  let name = 'Tom';
+
+  return function innerFunc() {
+    console.log(name);
+  }
+}
+
+const funcReturned = outerFunc(); // outerFunc执行后返回innerFunc
+funcReturned(); // 输出 Tom
+```
+本例中`innerFunc`定义在`outerFunc`中，所以`innerFunc`即使在`outerFunc`之外被执行时也可以访问`outerFunc`作用域内的变量`name`。
+
+::: details 一道经典的闭包面试题
+1. 写出下面代码的输入结果
+    ```javascript
+    for (var i = 1; i <= 5; i++) {
+      setTimeout(function timer() {
+        console.log(i);
+      }, i * 1000)
+    }
+    ```
+    答案：输出五次数值6
+    解析：这里的变量`i`定义成全局变量，在循环结束后，`i`的值是6，又因为setTimeout是内的函数是异步执行的，最后输出了五次i都是数值6
+
+2. 如果想要依次输出数值1到5，上述代码该如何修改?
+   - 通过闭包实现：
+       ```javascript
+        for (var i = 1; i <= 5; i++) {
+          ~(function(j) { // 立即执行函数
+            setTimeout(function timer() { // 这里形成了闭包
+              console.log(j)
+            }, j * 1000)
+          })(i)
+        }
+       ```
+   - 通过setTimeout第三个参数实现，setTimeout的第三个参数会作为其异步任务函数的参数而被传入。
+        ```javascript
+        for (var i = 1; i <= 5; i++) {
+          setTimeout(
+            function timer(j) {
+              console.log(j)
+            },
+            i * 1000, // setTimeout的第二个参数
+            i  // setTimeout的第三个参数
+          )
+        }
+        ```
+   - 使用ES6中的`let`，在`for`循环中使用`let`定义循环变量时，每次都会产生一个独立块级作用域。
+        ```javascript
+        for (let i = 1; i <= 5; i++) {
+          setTimeout(function timer() {
+            console.log(i); // 每次循环都会产生一个块级作用域，其中包含了当前循环变量i
+          }, i * 1000)
+        }
+        ```
+:::
+
 ## 说说JavaScript中的执行上下文
+
 ## 描述一下JavaScript中的作用域链
 ## 描述一下JavaScript中的原型和原型链
 ## ES5中实现继承
