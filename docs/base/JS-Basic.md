@@ -166,7 +166,16 @@ ES5中执行上下文去除了`变量对象`和`活动对象`，取而代之的�
 
 详见[面试官：说说执行上下文吧](https://juejin.im/post/5ebced85e51d454dc1467664)
 
+## JavaScript中的`this`指向有哪些情况
+1. 函数作为构造函数用，那么其中的this就代表它**即将**`new`出来的对象
+2. 如果函数作为对象的一个属性时，并且作为对象的一个属性被调用时，函数中的this指向该对象。即便是在整个原型链中，this代表的也都是当前对象。
+3. 当一个函数被`call/apply/bind`调用时，this的值是`call/apply/bind`传入的第一个参数
+4. 在全局环境下/普通函数在调用时，this永远是`window`
+5. 绑定到DOM上的函数，若DOM传入this，则函数中的this表示该DOM
+6. ES6箭头函数中的this，就是定义该箭头函数时所在的包裹环境中的this
+
 ## 描述一下JavaScript中的原型和原型链
+
 ## ES5中实现继承
 ## 判断一个对象的类型有哪些方法
 ## == 和 === 有什么区别
@@ -174,7 +183,6 @@ ES5中执行上下文去除了`变量对象`和`活动对象`，取而代之的�
 ## JavaScript中的严格模式是什么
 ## JavaScript中为什么0.1 + 0.2 !== 0.3
 ## 说说JavaScript中的事件循环(`Event Loop`)
-## JavaScript中的`this`指向有哪些情况
 ## `apply`、`call`、`bind` 之间有什么区别
 ## 手写实现`apply`、`call`、`bind`
 ## 什么是节流(`throttle`)和防抖(`debounce`)，手动实现节流和防抖
