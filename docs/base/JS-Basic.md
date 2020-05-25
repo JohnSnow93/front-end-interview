@@ -175,6 +175,34 @@ ES5中执行上下文去除了`变量对象`和`活动对象`，取而代之的�
 6. ES6箭头函数中的this，就是定义该箭头函数时所在的包裹环境中的this
 
 ## 描述一下JavaScript中的原型和原型链
+### `prototype`
+在JS中，每个函数都有一个`prototype`属性，被常作为原型，这是一个显式原型属性，它的值也是一个对象，所以又称为原型对象。
+```javascript
+function Animal(){};
+Animal.prototype; // 原型
+Animal.prototype.constructor === fun; // true
+```
+`prototype`原型对象上，有以下几个重要的属性
+- `constructor` 构造函数，指向拥有该原型对象的函数
+
+### `__proto__`
+每个对象，都有一个隐藏属性`__proto__`，指向创建该对象的构造函数的原型：
+```javascript
+const dog = new Animal(); // Animal是dog对象的构造函数
+dog.__proto__ === Animal.prototype; // true, Animal.prototype是dog的原型
+```
+
+注意: `prototype`也是一个对象，所以它也有`__proto__`隐藏属性。
+
+### 属性查找机制和原型链
+在访问一个对象的属性时，首先会查找对象本身是否有该属性，如果没有，则会沿着对象的`__proto__`属性，一层一层向上查找，直到访问到`Object.prototype`为止，因为`Object.prototype.__proto__`是`null`，无法再继续访问。
+
+至此可以给出原型链的概念：原型链是由对象`__proto__`属性连成的链条，`Object.prototype.__proto__`是原型链的顶端。
+
+如下图：
+![原型链](./img/prototype.png)
+
+由于`__proto__`是隐藏属性，并不规范，JS中给出了`Reflect.getPrototypeOf()` 与 `Object.getPrototypeOf()` 用于返回一个对象的原型
 
 ## ES5中实现继承
 ## 判断一个对象的类型有哪些方法
