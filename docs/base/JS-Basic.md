@@ -205,6 +205,135 @@ dog.__proto__ === Animal.prototype; // true, Animal.prototype是dog的原型
 由于`__proto__`是隐藏属性，并不规范，JS中给出了`Reflect.getPrototypeOf()` 与 `Object.getPrototypeOf()` 用于返回一个对象的原型
 
 ## ES5中实现继承
+在ES6的class出现后，ES5的继承使用的没有以前那么多了，这部分建议仅供了解，下面列举一些常见的ES5实现继承的方式：
+1. 类式继承，子类的`prototype`为父类的一个实例。
+缺点：如果父类的共有属性是引用类型，那父类的共有属性就会在**子类的所有实例**中共用，容易造成修改的混乱，且在在继承时，父类的共有属性是固定的，无法通过传参修改。
+```javascript
+// 声明父类
+function Father() {
+  this.age = 30;
+}
+// 添加父类的共有方法
+Father.prototype.getAge = function() {
+  return this.age; // 父类的共有属性
+}
+// 声明子类
+function Son() {
+  this.name = 'tom';
+}
+// 继承父类
+Son.prototype = new Father();
+```
+
+2. 构造函数继承，在子类中调用父类的构造函数。
+```javascript
+// 声明父类
+function Father(id) {
+  this.id = id;
+  this.books = ['html', 'css', 'js'];
+}
+// 添加父类的方法
+Father.prototype.getBooks = function() {
+  return this.books;
+}
+// 声明子类
+function Son(id) {
+  Father.call(this, id); // 继承父类
+}
+```
+有点是可以对父类构造函数进行传参，缺点是父类`prototype`上的方法没有被子类继承到。
+
+3. 组合继承，结合了上面两种继承方法的优点
+```javascript
+// 声明父类
+function Father(id) {
+  this.id = id;
+  this.books = ['html', 'css', 'js'];
+}
+// 添加父类的方法
+Father.prototype.getBooks = function() {
+  return this.books;
+}
+
+// 声明子类
+function Son(id) {
+  Father.call(this, id); // 继承父类的共有属性
+}
+Son.prototype = new Father(); // 继承父类的方法
+```
+
+4. 原型式继承，利用JS自带的原型链实现继承，缺点是父对象的共有属性如果是引用类型的依然会被所有子类的实例共享。
+```javascript
+function inheritObj(obj) {
+  // 声明一个过渡的函数对象
+  function F() {};
+  // 过度对象的原型为父类对象
+  F.prototype = obj;
+  // 返回过渡对象的一个实例，该实例继承了父对象
+  return new F();
+}
+// 使用方法
+// 父对象
+var book = {
+  name: 'css book',
+  tags: ['css', 'style']
+}
+var newBook = inheritObj(book);
+
+```
+注意，原型式继承的父类是一个普通的对象
+
+5. 寄生式继承，对原型式继承的一种封装
+```javascript
+var book = {
+  name: 'css book',
+  tags: ['css', 'style']
+}
+function createBook(bookObj) {
+  // 先通过原型继承创建新对象
+  var tempObj = inheritObj(bookObj);
+  // 添加方法
+  tempObj.getName = function() {
+    return this.name;
+  }
+  // 返回创建的新对象
+  return tempObj;
+}
+```
+缺点：使用该继承方式，在为对象添加函数的时候，没有办法做到函数的复用。
+
+6. 寄生组合式继承，结合了寄生式与组合式的优点
+```javascript
+// 先定义一个工具函数
+function inheritPrototype(subClass, superClass){
+  // 将父类的原型复制一份
+  var prototype = inheritObj(superClass.prototype);
+  // 修正因重写subClass原型导致constructor不正确
+  prototype.constructor = subClass;
+  // 给子类设置新的原型
+  subClass.prototype = prototype;
+}
+
+// 使用方法：
+// 声明父类
+function Father(id) {
+  this.id = id;
+  this.books = ['html', 'css', 'js'];
+}
+// 添加父类的方法
+Father.prototype.getBooks = function() {
+  return this.books;
+}
+
+// 声明子类
+function Son(id) {
+  Father.call(this, id); // 继承父类的共有属性
+}
+// 寄生式继承父类的原型
+inheritPrototype(Son, Father)
+```
+
+
 ## 判断一个对象的类型有哪些方法
 ## == 和 === 有什么区别
 ## 说说JS中的隐式转换
