@@ -333,8 +333,42 @@ function Son(id) {
 inheritPrototype(Son, Father)
 ```
 
-
 ## 判断一个对象的类型有哪些方法
+1. `typeof`操作符，常用来判断基本数据类型，例子：
+```javascript
+typeof 0;  //number;
+typeof true;  //boolean;
+typeof undefined;  //undefined;
+typeof "hello world"   //string;
+typeof function(){};   //function;
+
+typeof null; //object
+typeof {};  //object;
+typeof []; //object
+```
+不足：`typeof`判断对象、数组、null都为`object`
+
+2. `instanceof`操作符，主要是用于判断引用类型是否是某个父类型的实例
+```javascript
+const a = {};
+a instanceof Object;  //true
+a instanceof Array;     //false
+```
+原理：`instanceof`会在左侧值的原型链上查右侧值的`prototype`，如果找到就返回true
+
+3. `constructor`属性：实例对象的`__proto__.constructor` 会指向该实例的构造函数
+4. `Object.prototype.toString.call()`
+```javascript
+Object.prototype.toString.call(123); //"[object Number]"
+
+Object.prototype.toString.call('str'); //"[object String]"
+
+Object.prototype.toString.call(true); //"[object Boolean]"
+
+Object.prototype.toString.call({}); //"[object Object]"
+
+Object.prototype.toString.call([]); //"[object Array]"
+```
 ## == 和 === 有什么区别
 ## 说说JS中的隐式转换
 ## JavaScript中的严格模式是什么
