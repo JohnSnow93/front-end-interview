@@ -424,6 +424,28 @@ JS中的数值实现遵循[IEEE 754](https://baike.baidu.com/item/IEEE%20754)标
 2. 使用[`number-precision`](https://github.com/nefe/number-precision)库
 
 ## 说说JavaScript中的事件循环(`Event Loop`)
+因为 js 是单线程运行的，在代码执行的时候，通过将不同函数的执行上下文压入执行栈中来保证代码的有序执行。在执行同步代码的时候，如果遇到了异步事件，js 引擎并不会一直等待其返回结果，而是会将这个事件挂起，继续执行执行栈中的其他任务。当异步事件执行完毕后，再将异步事件对应的回调加入到与当前执行栈中不同的另一个任务队列中等待执行。任务队列可以分为宏任务对列和微任务对列，当当前执行栈中的事件执行完毕后，js 引擎首先会判断微任务对列中是否有任务可以执行，如果有就将微任务队首的事件压入栈中执行。当微任务对列中的任务都执行完成后再去判断宏任务对列中的任务。
+
+微任务包括了 promise 的回调、node 中的 process.nextTick 、对 Dom 变化监听的 MutationObserver。
+
+宏任务包括了 script 脚本的执行、setTimeout ，setInterval ，setImmediate 一类的定时事件，还有如 I/O 操作、UI 渲染等。
+
+![浏览器中的事件循环](./img/event-loop.jpg)
+
+## node中的事件循环
+node中事件循环的实现是依靠的`libuv`引擎，node选择chrome v8引擎作为js解释器，v8引擎将js代码分析后去调用对应的node api，而这些api最后则由`libuv`引擎驱动。如下图：
+![node中的事件循环](./img/node-event-loop.png)
+
+Node的Event loop一共分为6个阶段：
+- `timers`(定时器): 这个阶段执行定时器队列中的回调如 `setTimeout()` 和 `setInterval()`
+- `pending callbacks`:上一轮循环中少数的`I/O callback`会延迟放在这一阶段执行
+- `idle, prepare`(闲置，准备): 此阶段只在内部使用
+- `poll`(轮询): 最重要的阶段，在这一阶段`执行I/O回调`和`处理轮询队列中的事件`，此阶段几乎会执行几乎所有的回调函数，除了`close callbacks`和那些由 `timers` 与 `setImmediate()` 调度的回调
+- `check`(检查): `setImmediate()` 设置的回调会在此阶段执行(`setImmediate()是将事件插入到事件队列尾部，主线程和事件队列的函数执行完成之后立即执行setImmediate指定的回调函数`)
+- `close callbacks`(关闭事件的回调): 一些关闭事件的回调在此阶段进行，例如 `socket.on('close', ...)`.
+
+![node中的事件循环详细图](./img/node-event-loop-detail.jpg)
+
 ## `apply`、`call`、`bind` 之间有什么区别
 ## 手写实现`apply`、`call`、`bind`
 ## 什么是节流(`throttle`)和防抖(`debounce`)，手动实现节流和防抖
