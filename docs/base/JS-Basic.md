@@ -498,3 +498,8 @@ window触发resize的时候，不断的调整浏览器窗口大小会不断的�
 ## 说说前端储存数据 Cookie、LocalStorage、SessionStorage、IndexDB
 ## escape,encodeURI,encodeURIComponent 有什么区别？
 ## JavaScript的垃圾回收机制是怎样的
+## 实现instanceOf
+## 实现一个EventBus
+## 模拟new
+## 模拟Object.create()
+
