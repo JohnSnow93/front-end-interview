@@ -447,7 +447,70 @@ Node的Event loop一共分为6个阶段：
 ![node中的事件循环详细图](./img/node-event-loop-detail.jpg)
 
 ## `apply`、`call`、`bind` 之间有什么区别
+`apply`、`call`、`bind`都是为了改变函数调用时`this`的指向。
+- `apply`和`call`用法很像，主要区别是传入的参数不一样，apply的第二个参数是数组，适用于参数较多的情况
+    ```javascript
+    fun.call(thisArg, arg1, arg2, ...);
+    fun.apply(thisArg, [argsArray]);
+    ```
+- `bind`会改变函数的`this`并返回一个新函数，而`apply`、`call`对函数调用会立刻执行，`bind`的传参和`call`是一样的
+    ```javascript
+    fun.bind(thisArg[, arg1[, arg2[, ...]]]);
+    ```
+::: tip
+- 经过`bind`绑定了新`this`后返回的函数，当使用`new`操作符调用绑定函数时，绑定的新`this`无效。
+- call/apply/bind均无法改变箭头函数的This
+:::
 ## 手写实现`apply`、`call`、`bind`
+### 实现`call`
+```javascript
+Function.prototype.myCall = function(context) {
+  context = context || window
+  context.fn = this
+  const args = [...arguments].slice(1)
+  const result = context.fn(...args)
+  delete context.fn
+  return result
+}
+```
+### 实现`apply`
+```javascript
+Function.prototype.myApply = function(context) {
+  if (typeof this !== 'function') {
+    throw new TypeError('Error')
+  }
+  context = context || window
+  context.fn = this
+  let result
+  // 处理参数和 call 有区别
+  if (arguments[1]) {
+    result = context.fn(...arguments[1])
+  } else {
+    result = context.fn()
+  }
+  delete context.fn
+  return result
+}
+```
+### 实现`bind`
+这里使用`apply`来模拟`bind`
+```javascript
+Function.prototype.myBind = function (context) {
+  if (typeof this !== 'function') {
+    throw new TypeError('Error')
+  }
+  const _this = this
+  const args = [...arguments].slice(1)
+  // 返回一个函数
+  return function F() {
+    // 因为返回了一个函数，我们可以 new F()，所以需要判断
+    if (this instanceof F) {
+      return new _this(...args, ...arguments)
+    }
+    return _this.apply(context, args.concat(...arguments))
+  }
+}
+```
 ## 什么是节流(`throttle`)和防抖(`debounce`)，手动实现节流和防抖
 ### 防抖 debounce
 在事件被触发n秒后再执行回调，如果在这n秒内又被触发，则重新计时。
@@ -487,10 +550,10 @@ function debounce(fun, delay) {
     }
 ```
 ### 节流和防抖应用场景
-#### debounce
+- debounce
 search搜索联想，用户在不断输入值时，用防抖来节约请求资源。
 window触发resize的时候，不断的调整浏览器窗口大小会不断的触发这个事件，用防抖来让其只触发一次
-#### throttle
+- throttle
 鼠标不断点击触发，mousedown(单位时间内只触发一次)
 监听滚动事件，比如是否滑到底部自动加载更多，用throttle来判断
 
@@ -499,7 +562,35 @@ window触发resize的时候，不断的调整浏览器窗口大小会不断的�
 ## escape,encodeURI,encodeURIComponent 有什么区别？
 ## JavaScript的垃圾回收机制是怎样的
 ## 实现instanceOf
+```javascript
+function myInstanceof(left, right) {
+  let prototype = right.prototype
+  left = left.__proto__
+  while (true) {
+    if (left === null || left === undefined)
+      return false
+    if (prototype === left)
+      return true
+    left = left.__proto__
+  }
+}
+```
 ## 实现一个EventBus
-## 模拟new
+## 模拟new的实现
+`new`操作符做了这些事
+- 创建了一个新的对象
+- 将新对象的`__proto__`连接到构造函数的`prototype`
+- 将新对象绑定为构造函数的`this`并执行构造函数
+- 如果构造函数有返回值，则`new`的结果为构造函数的返回值，否则返回之前创建的新对象。
+```javascript
+function create() {
+  let obj = {}
+  let Constructor = [].shift.call(arguments)
+  obj.__proto__ = Constructor.prototype
+  let result = Constructor.apply(obj, arguments)
+  return result instanceof Object ? result : obj
+}
+```
+使用方法：`create(构造函数, 参数1, 参数2, ...)`
 ## 模拟Object.create()
 
