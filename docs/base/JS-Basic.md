@@ -561,6 +561,76 @@ window触发resize的时候，不断的调整浏览器窗口大小会不断的�
 ## 说说前端储存数据 Cookie、LocalStorage、SessionStorage、IndexDB
 ## escape,encodeURI,encodeURIComponent 有什么区别？
 ## JavaScript的垃圾回收机制是怎样的
+## 如何处理跨域
+### 什么是跨域
+跨域是因为浏览器的同源策略(`Same Origin Policy`)限制。同源策略会阻止一个域的JS脚本和另外一个域的内容进行交互。所谓同源（即指在同一个域）就是两个页面具有相同的协议（`protocol`），主机（`host`）和端口号（`port`）
+
+同源策略主要限制了以下几点：
+- 无法读取非同源网页的 Cookie、LocalStorage、SessionStorage 和 IndexedDB
+- 无法接触非同源网页的 DOM
+- 无法向非同源地址发送 AJAX 请求
+
+跨域一般指的是前端想要和非本域的内容进行交互，跨域目前有下面几种解决方案
+### `JSONP`
+JSONP主要原理是通过浏览器`<script>`标签的`src`能够加载跨域脚本。
+
+核心思想：网页通过添加一个`<script>`元素，向服务器请求 JSON 数据，服务器收到请求后，将数据放在一个指定名字的回调函数的参数位置传回来
+
+优点是兼容性好，缺点是只支持`get`请求
+```html
+<script src="http://test.com/data.php?callback=dosomething"></script>
+// 向服务器test.com发出请求，该请求的查询字符串有一个callback参数，用来指定回调函数的名字
+ 
+// 处理服务器返回回调函数的数据
+<script type="text/javascript">
+    function dosomething(res){
+        // 处理获得的数据
+        console.log(res.data)
+    }
+</script>
+```
+### `CROS`
+`CORS`是一个W3C标准，全称是"跨域资源共享"（Cross-origin resource sharing）, 它允许浏览器向跨域服务器，发出AJAX请求。
+
+浏览器将 `CORS` 请求分成两类：简单请求和非简单请求。
+
+对于简单请求，浏览器直接发出 `CORS` 请求。具体来说，就是会在请求头中，增加 `Origin` 字段用来说明本次请求来自哪个源。服务器根据这个值，决定是否同意这次请求。对于如果 `Origin` 指定的源，不在许可范围内，服务器会返回一个正常的 HTTP 回应。浏览器发现，这个回应的头信息没有包含 `Access-Control-Allow-Origin` 字段，就知道出错了，从而抛出一个错误，ajax 不会收到响应信息。如果成功的响应头会包含`Access-Control-Allow-Origin`、`Access-Control-Allow-Credentials`、`Access-Control-Expose-Headers` 等字段。
+
+非简单请求，浏览器会先发出一次预检请求(`HEAD`请求)，来判断该域名是否在服务器的白名单中，如果收到肯定回复后才会发起请求。
+
+详见：[跨域资源共享 CORS 详解](http://www.ruanyifeng.com/blog/2016/04/cors.html)
+
+### 设置`document.domain`
+因为浏览器是通过document.domain属性来检查两个页面是否同源，因此只要通过设置相同的document.domain，两个页面就可以共享Cookie，此方案仅限主域相同，子域不同的跨域应用场景。
+```javascript
+document.domain = 'test.com';
+```
+### `window.postMessage()`
+调用postMessage方法实现父窗口向子窗口发消息（子窗口同样可以通过该方法发送消息给父窗口）
+
+适用场景：
+- 页面和其打开的新窗口的数据传递
+- 多窗口之间消息传递
+- 页面与嵌套的`iframe`消息传递
+```javascript
+// 打开'http://test2.com'窗口并向其发送消息
+const openWindow = window.open('http://test2.com', 'title');
+openWindow.postMessage('Nice to meet you!', 'http://test2.com');
+
+// 监听来自别的窗口发来的消息
+window.addEventListener('message', function (e) {
+  console.log(e.source); // e.source 发送消息的窗口
+  console.log(e.origin); // e.origin 消息发向的网址
+  console.log(e.data);   // e.data   发送的消息
+},false);
+```
+
+### `WebSocket`
+`WebSocket`连接是没有同源限制的，所以天然可以跨域。
+
+### 后端转发请求
+同源策略是浏览器的安全功能，而服务端发起请求是没有同源限制的，所以可以让服务器转发来自前端的请求，达到跨域的目的。
+
 ## 实现instanceOf
 ```javascript
 function myInstanceof(left, right) {
