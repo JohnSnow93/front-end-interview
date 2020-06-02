@@ -557,7 +557,73 @@ window触发resize的时候，不断的调整浏览器窗口大小会不断的�
 鼠标不断点击触发，mousedown(单位时间内只触发一次)
 监听滚动事件，比如是否滑到底部自动加载更多，用throttle来判断
 
-## 实现浅拷贝和深拷贝
+## 实现对象浅拷贝和深拷贝
+### 浅拷贝
+只会拷贝对象最外部的一层，深层次的对象级别的就拷贝引用。浅拷贝有如下几种方法：
+
+1. 循环复制对象属性
+```javascript
+function simpleClone(initalObj) {
+    var obj = {};
+    for ( let i in initalObj) {
+        obj[i] = initalObj[i];
+    }
+    return obj;
+}
+```
+2. ES6解构
+```javascript
+let a = {
+  age: 1
+}
+let b = { ...a }
+```
+3. `Object.assign()`
+```javascript
+let a = {
+  age: 1
+}
+let b = Object.assign({}, a)
+```
+### 深拷贝
+1. `JSON.parse()` + `JSON.stringify()` 实现深拷贝：
+```javascript
+let a = {
+  age: 1,
+  jobs: {
+    first: 'FE'
+  }
+}
+let b = JSON.parse(JSON.stringify(a));
+```
+这是目前比较流行的写法，简单快捷。但是该方法是一些局限性的：
+- 会忽略 undefined
+- 会忽略 symbol
+- 不能序列化函数
+- 不能解决循环引用的对象
+
+2. 递归拷贝对象的属性
+```javascript
+// isObject是帮助函数，用于判断一个值是对象还是函数。
+function isObject(o) {
+  return (typeof o === 'object' || typeof o === 'function') && o !== null
+}
+
+function deepClone(obj) {
+  if (!isObject(obj)) {
+    throw new Error('非对象')
+  }
+  let isArray = Array.isArray(obj);
+  let newObj = isArray ? [...obj] : { ...obj };
+  Reflect.ownKeys(newObj).forEach(key => {
+    newObj[key] = isObject(obj[key]) ? deepClone(obj[key]) : obj[key];
+  })
+
+  return newObj;
+}
+```
+这是一个简单版本深克隆，只考虑了引用类型是简单对象、数组，实际上还有很多的其他边界情况需要考虑，比如防止循环引用、函数的复制、处理Date对象、处理RegExp对象等。
+
 ## 说说前端储存数据 Cookie、LocalStorage、SessionStorage、IndexDB
 ## escape,encodeURI,encodeURIComponent 有什么区别？
 ## JavaScript的垃圾回收机制是怎样的
