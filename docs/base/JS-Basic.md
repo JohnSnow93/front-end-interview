@@ -624,8 +624,24 @@ function deepClone(obj) {
 ```
 这是一个简单版本深克隆，只考虑了引用类型是简单对象、数组，实际上还有很多的其他边界情况需要考虑，比如防止循环引用、函数的复制、处理Date对象、处理RegExp对象等。
 
-## 说说前端储存数据 Cookie、LocalStorage、SessionStorage、IndexDB
+## 说说前端储存数据 Cookie、localStorage、sessionStorage、IndexDB
+localStorage、sessionStorage、IndexDB是HTML5新推出的API，用于前端储存数据。
+- localStorage、sessionStorage是以字符串键值对的方式储存数据，sessionStorage 在窗口关闭前有效，localStorage 长期有效，直到用户删除
+- IndexedDB 就是浏览器提供的本地数据库，允许储存大量数据，支持二进制储存，提供查找接口，还能建立索引。详见[浏览器数据库 IndexedDB 入门教程](http://www.ruanyifeng.com/blog/2018/07/indexeddb.html)
+- `cookie` 会在请求时发送到服务器，作为会话标识，服务器可修改 `cookie`，cookie 在设置的有效期内有效，默认为浏览器关闭
+- Cookie、localStorage、sessionStorage、IndexDB 均受同源策略限制，无法跨域。
+
+|  特性	 | cookie| 	localStorage| sessionStorage| indexDB |
+| --- | -- | -- | -- | -- |
+| 数据生命周期 | 一般由服务器生成，可以设置过期时间 | 除非被清理，否则一直存在	页面关闭就清理 |	除非被清理，否则一直存在 | 除非被清理，否则一直存在 | 
+| 数据存储大小 | 4K | 5M |	5M | 不超过浏览器允许占用的磁盘空间，详见[IndexedDB 浏览器存储限制和清理标准](https://developer.mozilla.org/zh-CN/docs/Web/API/IndexedDB_API/Browser_storage_limits_and_eviction_criteria) |
+| 与服务端通信 | 每次都会携带在 header 中 |	不参与 | 不参与	| 不参与 |
+
 ## escape,encodeURI,encodeURIComponent 有什么区别？
+`escape()`、`encodeURI()`和`encodeURIComponent()`作用是用于将字符串编码成十六进制转义序列。目前`escape`已被废弃，不再推荐使用，这几个函数**主要区别是各自的适用范围不同**：
+- `escape`不会对ASCII字母和数字进行编码，也不会对`- _ . ! ~ * ' ( )`这些字符进行编码
+- `encodeURI`适用于完整的URI进行编码，**不会**对ASCII字母、数字、和如下字符`~!@#$&*()=:/,;?+'`进行编码
+- `encodeURIComponent`适用于对URI的片段进行编码，比如协议、主机名、路径或查询字符串，**不会**对ASCII字母、数字、和如下字符`~!*()'`进行编码
 ## JavaScript的垃圾回收机制是怎样的
 ## 如何处理跨域
 ### 什么是跨域
