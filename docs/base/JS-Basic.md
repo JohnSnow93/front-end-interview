@@ -739,6 +739,15 @@ window.addEventListener('message', function (e) {
 ### 后端转发请求
 同源策略是浏览器的安全功能，而服务端发起请求是没有同源限制的，所以可以让服务器转发来自前端的请求，达到跨域的目的。
 
+## `ES module`和`CommonJS`区别
+- `CommonJS`是服务端模块的规范，Nodejs采用这个规范。
+- `ES module`是ES6中提出的js模块化方案
+- `CommonJS` 模块是运行时加载，ES6 模块是编译时输出接口。
+- `CommonJS` 加载的是整个模块，即将所有的接口全部加载进来，ES6 可以单独加载其中的某个接口（方法），
+- `CommonJS` this 指向当前模块，`ES6`中this 指向undefined
+- `CommonJS` 模块输出的是一个值的拷贝(浅拷贝)，ES6 模块输出的是值的引用。
+- ES6的import 语句不能放在if语句块里，不然会报错，nodejs的require可以放在if里
+
 ## 实现instanceOf
 ```javascript
 function myInstanceof(left, right) {
