@@ -16,18 +16,19 @@ footer: 小册面试题均来自于网络收集，如有侵权请联系我
 ---
 ## 分类导航
 ### 基础
-1. [HTML](/base/HTML/)
-2. [CSS](/base/JavaScript/)
-3. [JavaScript](/base/JavaScript/)
+1. [HTML面试题](./base/HTML/)
+2. [CSS基础](./base/CSS-Basic/)
+3. [CSS应用和布局](./base/CSS-Practice/)
+4. [JavaScript基础+笔试](./base/JavaScript/)
 ### 进阶
-1. [React面试题](/advance/React/)
-1. [Vue面试题](/)
-2. [设计模式](/)
-3. [算法](/)
-4. [浏览器/计算机网络](/)
+1. [JS相关算法](./advance/Algorithm/)
+2. [React面试题](./advance/React/)
+3. [设计模式](./advance/DesignPattern/)
+4. [网络和安全相关面试题](./advance/NetworkAndSecurity/)
+5. [综合问题](./advance/ComplexQuestion/)
 ### 面试与简历相关部分
-1. [程序员简历编写](/)
-2. [面试中常见问题](/)
+1. [简历编写](/interview/#简历编写)
+2. [HR面试常见问题](/interview/#hr面试常见问题)
 ## 其他镜像
 本小册默认部署在Netlify上，如果访问速度不佳，建议使用以下的镜像网站：
 - Geetlee

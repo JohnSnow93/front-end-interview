@@ -5,7 +5,7 @@ module.exports = {
     themeConfig: {
         nav: [
             { text: '基础', link: '/base/HTML' },
-            { text: '进阶', link: '/advance/' },
+            { text: '进阶', link: '/advance/Algorithm' },
             { text: '面试与简历', link: '/interview/' },
             // { text: '前端网址导航', link: 'https://github.com/JohnSnow93/front-end-interview' },
             { text: 'Github', link: 'https://github.com/JohnSnow93/front-end-interview' },
@@ -16,8 +16,8 @@ module.exports = {
                 'CSS-Basic',
                 'CSS-Practice',
                 'JS-Basic',
-                'ES6',
-                'BOMAndDOMAndBrowser',
+                // 'ES6',
+                // 'BOMAndDOMAndBrowser',
                 // 'javascript'
                 // {
                 //     title: 'JavaScript',   // 必要的
@@ -29,7 +29,13 @@ module.exports = {
                 //     ]
                 // },
             ],
-            '/advance/': [''],
+            '/advance/': [
+              'Algorithm',
+              'React',
+              'DesignPattern',
+              'NetworkAndSecurity',
+              'ComplexQuestion'
+            ],
             '/interview/': [''],
             // fallback
             '/': [
