@@ -3,6 +3,11 @@
 [[toc]]
 
 ## React和Vue有什么不同
+## React中的Component和Element有声明区别
+## 说说class组件和function组件，以及他们的区别
+## React中的key的作用是什么
+## Controlled Component(受控组件) 与 Uncontrolled Component(非受控组件)之间的区别是什么
+## 什么是Virtual DOM
 ## React的生命周期
 ## React 16.X的生命周期，以及为何要替换掉以前的？
 ## React组件间的通信机制有哪些
