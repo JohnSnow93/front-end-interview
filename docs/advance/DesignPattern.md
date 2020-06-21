@@ -150,6 +150,100 @@ class Person {
 }
 ```
 ## 代理模式
-## 发布订阅模式
+代理模式是为一个对象提供一个代用品或占位符，以便控制对它的访问。
+
+例子：
+```javascript
+let BankAccounts = function() {
+    //constructor
+};
+
+BankAccounts.prototype = {
+    add(bankAccountData) {
+        // funtionality for adding a new bank account
+    },
+    find(bankAccount) {
+        // searching the list of bank accounts
+    },
+    getList() {
+        // return a list of all the bank accounts
+    }
+};
+
+// 创建代理
+var BankAccountsProxy = function() {
+    // getting a reference to the original object
+    this.bankAccounts = new BankAccounts();
+};
+
+BankAccountsProxy.prototype = {
+    addBankAccount(bankAccountData) {
+        // some funtionality before calling the add method on BankAccounts
+        return this.bankAccounts.add();
+    },
+    findBankAccount(bankAccount) {
+        // some funtionality before calling the find method on BankAccounts
+        return this.carList.find();
+    },
+    getBankAccountsList() {
+        // some funtionality before calling the getList method on BankAccounts
+        return this.carList.getList();
+    }
+};
+```
+- 代理的接口和原对象(被代理)的接口是一致的
+- 保护代理：通过代理来处理一些不必要的东西，过滤掉无用信息
+- 虚拟代理：虚拟代理把一些开销很大的对象，延迟到真正需要它的时候才去创建
+
 ## 观察者模式
+观察者模式(`Observer`)又称为发布-订阅模式，它定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都将得到通知。在 JavaScript 开发中，我们常用事件模型来替代传统的观察者模式。
+
+下面是一个非事件模型的简单观察者模式的实现：
+```javascript
+class Subject {
+  observers = new Set(); // ES6之前常用数组来保存观察者
+
+  subscribe(observer) {
+    this.observers.add(observer);
+  }
+ 
+  unsubscribe(observer) {
+    this.observers.delete(observer);
+  }
+ 
+  notify(message) {
+    this.observers.forEach((observer) => {
+      observer(message);
+    })
+  }
+}
+
+// 使用方法
+const subject = new Subject();
+ 
+subject.subscribe((message) => {
+  console.log(message);
+});
+ 
+subject.notify('Hello world!');
+```
+
 ## 外观模式
+外观模式为外部提供了一个接口，隐藏了内部的逻辑，更加方便外部调用。
+
+下面是兼容多种浏览器的添加事件方法的一个例子：
+```javascript
+function addEvent(element, eventType, callback, useCapture) {
+  if (element.addEventListener) {
+    element.addEventListener(eventType, callback, useCapture);
+  } else if (element.attachEvent) {
+    element.attachEvent("on" + eventType, callback);
+  } else {
+    element["on" + eventType] = callback
+  }
+}
+```
+
+React中的可以自定义Hooks封装复杂的业务逻辑，对外暴露出简单的接口，这也可以认为是外观模式
+
+- 外观模式是在原对象的接口之上封装了对外的新接口
