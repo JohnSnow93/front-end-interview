@@ -108,7 +108,47 @@ renderMap(baiduMapAdapter);
 - 适配器模式不会改变原对象的接口
 - 适配器模式不会增加或简化原对象的功能
 
-## 装饰模式
+## 装饰器模式
+装饰器模式(`Decorator`)允许向一个现有的对象添加新的功能，同时又不改变其结构。
+
+这种模式创建了一个装饰类，用来包装原有的类，并在保持类方法签名完整性的前提下，提供了额外的功能。
+
+ES6中的装饰器既可以装饰类，也可以装饰类的属性，关于ES6中的装饰器，详见：[装饰器 - ECMAScript 6入门](https://es6.ruanyifeng.com/#docs/decorator)
+
+### 类装饰器的例子：
+```javascript
+// 定义一个装饰器
+function testable(target) {
+  target.prototype.isTestable = true;
+}
+
+// 使用装饰器
+@testable
+class MyTestableClass {}
+
+let obj = new MyTestableClass();
+obj.isTestable // true
+```
+
+### 属性装饰器的例子
+```javascript
+function readonly(target, name, descriptor){
+  // descriptor对象原来的值如下
+  // {
+  //   value: specifiedFunction,
+  //   enumerable: false,
+  //   configurable: true,
+  //   writable: true
+  // };
+  descriptor.writable = false;
+  return descriptor;
+}
+
+class Person {
+  @readonly
+  name() { return `${this.first} ${this.last}` } // 经过装饰后的name属性是只读的
+}
+```
 ## 代理模式
 ## 发布订阅模式
 ## 观察者模式
