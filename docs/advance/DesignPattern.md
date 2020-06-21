@@ -24,7 +24,90 @@ new Singleton() === new Singleton(); // true
 单例模式的具体实现由很多种，我们只要保证全局只有一个实例并且可以访问它。
 
 ## 工厂模式
+工厂模式用于创建对象，无需指定创建对象的具体类。
+
+例子：
+```javascript
+const TEACHER_TYPE = {
+  CODING: 'coding',
+  MUSIC: 'music'
+};
+class CodingTeacher {
+  constructor(properties) {
+    this.name = properties.name;
+    this.programmingLanguage = properties.programmingLanguage;
+  }
+}
+ 
+class MusicTeacher {
+  constructor(properties) {
+    this.name = properties.name;
+    this.instrument = properties.instrument;
+  }
+}
+
+// 生成各种Teacher的工厂
+class TeacherFactory {
+  static getTeacher(type, properties) {
+    if (type === TEACHER_TYPE.CODING) {
+      return new CodingTeacher(properties);
+    } else if (type === TEACHER_TYPE.MUSIC) {
+      return new MusicTeacher(properties);
+    } else {
+      throw new Error('Wrong teacher type chosen');
+    }
+  }
+}
+
+// 使用工厂生产对象
+const codingTeacher = TeacherFactory.getTeacher(TEACHER_TYPE.CODING, {
+  programmingLanguage: 'JavaScript',
+  name: 'John'
+});
+ 
+const musicTeacher = TeacherFactory.getTeacher(TEACHER_TYPE.MUSIC, {
+  instrument: 'Guitar',
+  name: 'Andy'
+});
+```
+
 ## 适配器模式
+适配器模式(`Adapter`)主要解决两个不兼容接口之间的匹配问题。
+
+例子：
+```javascript
+// googleMap 和 baiduMap 的接口不一致，导致renderMap方法不能使用 baiduMap
+const googleMap = {
+ show: function(){
+  console.log( '开始渲染谷歌地图' );
+ }
+};
+const baiduMap = {
+ show: function(){
+  console.log( '开始渲染百度地图' );
+ }
+};
+
+// 定义baiduMap的适配器
+const baiduMapAdapter = {
+ show: function(){
+  return baiduMap.display(); 
+ }
+}
+
+const renderMap = function( map ){
+ if ( map.show instanceof Function ){
+  map.show();
+ }
+};
+
+// 直接使用适配器即可
+renderMap(googleMap);
+renderMap(baiduMapAdapter);
+```
+- 适配器模式不会改变原对象的接口
+- 适配器模式不会增加或简化原对象的功能
+
 ## 装饰模式
 ## 代理模式
 ## 发布订阅模式
