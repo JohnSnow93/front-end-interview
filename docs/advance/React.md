@@ -99,13 +99,58 @@ React 修改生命周期是为`Async Rendering`和`Fiber`调度服务的。
 在未来的React 17中，会完全删除`componentWillMount`、`componentWillReceiveProps`、`componentWillUpdate`，为新的`Async Rendering`做准备。
 
 ## React组件间的通信机制有哪些
-- 父子组件通信
-- 兄弟组件通信
-- 跨多层级组件通信
-- 任意组件
+- 父子组件通信：父组件通过props向子组件传递数据，子组件通过回调函数向父组件传递数据
+- 兄弟组件通信：通过共同的父组件传递数据
+- 跨多层级组件通信：使用React的Context API传递数据
+- 任意组件：使用Redux等数据管理库
+
 ## setState原理，什么时候是同步的？
 ## 什么是高阶组件(HOC)
+React中的高阶组件定义：一个高阶组件将接受一个React组件作为参数，并返回一个新的、被包装过的React组件。
+
+高阶组件主要用于达到以下两种目的：
+- 属性代理 `Props Proxy`：高阶组件可以代理被包裹的组件接受`props`，并将修改过的`props`传入被包裹组件
+- 反向继承 `Inheritance Inversion`：通过反向继承被包裹组件，可以劫持返回后组件的渲染方法、操作其`state`等，访问`this`等。
+
+属性代理例子：
+```jsx harmony
+// 用于属性代理的高阶组件
+function propsProxyHOC(WrappedComponent) {
+  return class PP extends React.Component {
+    render() {
+      const newProps = { // 可以额外注入props
+        userName: 'Tom'
+      }
+      return <WrappedComponent {...this.props} {...newProps}/>
+    }
+  }
+}
+
+// 1.以装饰器的方式使用
+@propsProxyHOC
+class MyComponent extends React.Component {
+  render() {
+    return <div>{this.props.userName}</div>
+  }
+}
+
+// 2. 或者当做函数使用
+const MyComponentWithUserInfo = propsProxyHOC(MyComponent)
+```
+
+反向继承例子：
+```jsx harmony
+function iiHOC(WrappedComponent) {
+  return class Enhancer extends WrappedComponent { // 主动去继承被包裹组件
+    render() {
+      return super.render() // 渲染方法被劫持
+    }
+  }
+}
+```
+
 ## React中的事件机制
+
 ## React 16.X 的Fiber原理
 ## React Hooks相对高阶组件和Class组件有什么优势/缺点？
 ## React跨平台的实现原理。
