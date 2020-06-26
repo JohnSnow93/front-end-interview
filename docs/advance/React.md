@@ -94,7 +94,7 @@ class UnControlledForm extends Component {
 #### 为什么要替换掉以前的生命周期？
 React 修改生命周期是为`Async Rendering`和`Fiber`调度服务的。
 
-在React16引入Fiber后，`reconciler`(diff + render + 创建虚拟DOM)阶段会调用多次，导致生命周期可能会被调用多次，这样某些`componentWill***`就不符合其语义了(原本的`will`暗示该生命周期在更新过程中只会调用一次)。
+在React16引入Fiber后，`reconciler`(diff + render() + 创建虚拟DOM)阶段会调用多次，导致生命周期可能会被调用多次，这样某些`componentWill***`就不符合其语义了(原本的`will`暗示该生命周期在更新过程中只会调用一次)。
 
 在未来的React 17中，会完全删除`componentWillMount`、`componentWillReceiveProps`、`componentWillUpdate`，为新的`Async Rendering`做准备。
 
@@ -105,6 +105,35 @@ React 修改生命周期是为`Async Rendering`和`Fiber`调度服务的。
 - 任意组件：使用Redux等数据管理库
 
 ## setState原理，什么时候是同步的？
+在代码中调用setState函数之后，React 会将传入的参数对象与组件当前的状态合并，然后触发所谓的调和过程（Reconciliation）。
+
+一般情况下，React会将用户多次调用`setState`合并成一个，导致在setState后没法立马拿到更新后的state值，形式了所谓的"异步"。
+- 由React控制的事件处理程序，以及生命周期函数调用setState不会同步更新state
+- React控制之外的事件中调用setState是同步更新的。比如原生js绑定的事件，setTimeout/setInterval等。
+
+如果想要在setState更新后在执行某一动作，可以将函数作为steState的第二个参数，React会确保在state更新之后才会调用该函数：
+```js
+this.setState({ count: this.state.count + 1}, () => {
+    console.log(this.state.count);
+})
+```
+
+使用函数作为setState的第一个参数，可以同步获取到最新的state:
+```js
+increment(state, props) {
+  return {
+    count: state.count + 1
+  }
+}
+
+// 调用后state.count会增加3,
+handleClick() {
+  this.setState(this.increment)
+  this.setState(this.increment)
+  this.setState(this.increment)
+}
+```
+
 ## 什么是高阶组件(HOC)
 React中的高阶组件定义：一个高阶组件将接受一个React组件作为参数，并返回一个新的、被包装过的React组件。
 
@@ -150,8 +179,13 @@ function iiHOC(WrappedComponent) {
 ```
 
 ## React中的事件机制
+为了解决跨浏览器兼容性问题，React 会将浏览器原生事件（Browser Native Event）封装为合成事件（SyntheticEvent）传入设置的事件处理器中。这里的合成事件提供了与原生事件相同的接口，不过它们屏蔽了底层浏览器的细节差异，保证了行为的一致性。另外有意思的是，React 并没有直接将事件附着到子元素上，而是以单一事件监听器的方式将所有的事件发送到顶层进行处理。这样 React 在更新 DOM 的时候就不需要考虑如何去处理附着在 DOM 上的事件监听器，最终达到优化性能的目的。
 
 ## React 16.X 的Fiber原理
+React Fiber是在React 16中引入的一个新的任务调和器(`reconciler`)，之前React使用递归的方式进行`reconcile`，而JS又是单线程的，一旦`reconcile`开始，就必须等待其任务全部执行完毕。在当组件树比较庞大的时候，可能会造成界面卡顿。
+
+引入`Fiber`之后，可以将`reconcile`拆分成更小的任务，`reconcile`过程可以暂停，分阶段完成。并将任务按照优先等级划分，优先执行高优先级的任务(比如浏览器渲染任务)。
+
 ## React Hooks相对高阶组件和Class组件有什么优势/缺点？
 ## React跨平台的实现原理。
 ## 说一说Redux和Flux，以及他们之间的不同
