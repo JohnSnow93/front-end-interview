@@ -186,8 +186,30 @@ React Fiber是在React 16中引入的一个新的任务调和器(`reconciler`)�
 
 引入`Fiber`之后，可以将`reconcile`拆分成更小的任务，`reconcile`过程可以暂停，分阶段完成。并将任务按照优先等级划分，优先执行高优先级的任务(比如浏览器渲染任务)。
 
-## React Hooks相对高阶组件和Class组件有什么优势/缺点？
-## React跨平台的实现原理。
-## 说一说Redux和Flux，以及他们之间的不同
-## React性能优化的方法有哪些
+## React Hooks相对Class组件有什么优势？
+- Hooks让函数组件也可以有自己的状态
+- 更容易复用代码，可以将业务逻辑封装/副作用到自定义Hooks中
+- `useEffect`相对于`class`组件简化了生命周期，代码风格更加简洁
 
+## 说一说Redux和Flux，以及他们之间的不同
+|  Redux   | Flux  |
+|  ----  | ----  |
+| Store 和更改逻辑是分开的  | Store 包含状态和更改逻辑 |
+| 只有一个 Store  | 存在多个 Store |
+| 带有分层 reducer 的单一 Store  |  所有 Store 都互不影响且是平级的 |
+| 没有调度器(`dispatcher`)的概念  | 它有一个单独的调度器(`dispatcher`) |
+| 状态是不可变的 | 状态是可变的 |
+
+## React中常用优化的方法有哪些
+- 使用`shouldComponentUpdate`避免重复渲染，在shouldComponentUpdate返回false时，组件不会更新
+- 使用`React.PureComponent`，PureComponent自带通过props和state的浅对比来实现 shouldComponentUpdate
+- props尽量只传需要的数据，避免多余的更新
+- 使用`React.memo(functionComponent, comparator: (prevProps, nextProps) => boolean)`，让纯函数组件也可以自行决定更新时机，类似shouldComponentUpdate，当comparator函数返回true时，函数组件才会重新渲染。
+- 使用`React.Fragment`减少多余的用于包裹的节点
+- 纯函数组件中使用以下hooks来达到性能优化的目的
+    - useCallback
+    - useMemo
+- 减少在render()中使用内联函数
+- 给列表中的元素添加key，帮助react跟踪元素的修改
+- 使用`React.lazy()`和webpack的code split来分割代码，延迟加载组件。
+- 使用Immutable方案
