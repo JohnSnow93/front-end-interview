@@ -53,7 +53,31 @@ UDP是用户数据报协议，UDP是一种无连接的，不可靠的传输层�
              
 ## HTTP协议
 HTTP 是超文本传输协议，它定义了客户端和服务器之间交换报文的格式和方式，默认使用 80 端口。它使用 TCP 作为传输层协议(HTTP3已经使用UDP协议了)，保证了数据传输的可靠性。
+
+HTTP 报文有两种，一种是请求报文，一种是响应报文。HTTP报文由首部(`headers`)与实体组成(`body`)，首部和实体间使用一个空行进行分割，该空行不能省略。下面是HTTP报文结构图：
+![HTTP报文机构图](./img/HTTPMsgStructure2.png)
+
+- 请求报文的首部的第一行成为请求行，请求行包含三个字段：方法字段(`Method`)、URL 字段和 HTTP 版本字段。如: `POST / HTTP/1.1`，方法字段(`Method`)可以取几种不同的值，一般有 GET、POST、HEAD、PUT 和 DELETE
+- 响应报文的首部的第一行成为请求行状态行，状态行包含了三个字段：协议版本字段、状态码和相应的状态信息。如：`HTTP/1.0 200 OK`
+
+### 常见的HTTP状态码以及其含义
+| HTTP状态码 | 状态信息 | 解释 |
+| --- | --- | --- |
+| 200 | OK | 服务器已成功处理了请求。
+| 206 | Partial Content | 服务器成功处理了部分请求。
+| 301 | Moved Permanently | 已永久移动到新位置，即永久重定向。
+| 302 | Found | 暂时跳转到其他页面，即暂时重定向。
+| 304 | Not Modified | GET请求时，文档的内容（自上次访问以来或者根据请求的条件）并没有改变 |
+| 400 | Bad Request |  错误请求，服务器无法解析该请求。
+| 401 | Unauthorized | 未授权请求，没有进行身份验证或验证未通过。
+| 403 | Forbidden | 禁止访问服务器，拒绝此请求。
+| 404 | Not Found | 未找所请求的资源。
+| 500 | Internal Server Error | 服务器内部错误服务器遇到错误，无法完成请求。
+| 502 | Bad Gateway | 错误网关服务器作为网关或代理，从上游服务器收到无效响应。
+更多HTTP状态码含义见[HTTP 响应代码](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status)
+
 ### HTTP1.1
+
 ### HTTP2
 ### HTTP3
 ### HTTPS
