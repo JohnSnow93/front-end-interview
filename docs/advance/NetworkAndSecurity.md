@@ -99,7 +99,7 @@ HTTPS 指的是超文本传输安全协议，HTTPS 是基于 HTTP 协议的，�
 关于HTTPS更多信息详见：[《一个故事讲完https》](https://mp.weixin.qq.com/s/StqqafHePlBkWAPQZg3NrA) [图解SSL/TLS协议](http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html) 
 
 ## XSS
-XSS(`cross-site scripting`)是跨站脚本攻击，是指对Web页面注入脚本，使用JavaScript窃取用户信息，诱导用户操作等。
+XSS(`cross-site scripting`)跨站脚本攻击，是指对Web页面注入脚本，使用JavaScript窃取用户信息，诱导用户操作等。
 常见的XSS有：**持久型**和**非持久型**
 
 - 持久型/储存型: 持久型也就是攻击的代码被服务端写入进**数据库**中，如果服务器没有正确进行过滤输出，那就会造成浏览这个页面的用户执行攻击代码。
@@ -110,5 +110,12 @@ XSS(`cross-site scripting`)是跨站脚本攻击，是指对Web页面注入脚�
 - 使用CSP(`Content Security Policy`)内容安全策略：实质就是白名单制度，开发者明确告诉客户端，哪些外部资源可以加载和执行。详见[《Content Security Policy 入门教程》](http://www.ruanyifeng.com/blog/2016/09/csp.html)
 
 ## CSRF
+CSRF(`cross-site request forgery`)跨站请求伪造，攻击者构造出一个后端请求地址，诱导用户点击或者通过某些途径自动发起请求。如果用户是在登录状态下的话，后端就以为是用户在操作，从而进行相应的逻辑。
 
+比如说诱导用户访问一个GET请求: `<img src="http://www.domain.com/xxx?comment='attack'"/>`
+
+防范CSRF的方法：
+- 网站的API尽量不用GET请求，因为GET请求更容易进行CSRF攻击
+- 验证 HTTP Referer 字段。在 HTTP 头中的 Referer 字段，它记录了该 HTTP 请求的来源地址，可以用它验证请求是否是来自可信的域名。
+- Token验证。在每次请求中带上Token，在服务端验证Token的有效性。Token可以放在HTTP请求头中、请求的URL中等。
 
