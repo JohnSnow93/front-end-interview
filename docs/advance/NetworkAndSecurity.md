@@ -91,9 +91,24 @@ HTTP2.0和HTTP1.X相比的新特性:
 - header压缩，如上文中所言，对前面提到过HTTP1.x的header带有大量信息，而且每次都要重复发送，HTTP2.0使用encoder来减少需要传输的header大小，通讯双方各自cache一份header fields表，既避免了重复header的传输，又减小了需要传输的大小。
 - 服务端推送（server push），同SPDY一样，HTTP2.0也具有server push功能。
 ### HTTP3
+由于 TCP 本身存在的一些限制，Google 就开发了一个基于 UDP 协议的 QUIC 协议，并且使用在了 HTTP/3 上。 QUIC 协议在 UDP 协议上实现了多路复用、有序交付、重传等等功能
 
 ### HTTPS
+HTTPS 指的是超文本传输安全协议，HTTPS 是基于 HTTP 协议的，不过它会使用 TLS/SSL 来对数据加密。HTTPS协议默认使用端口是443。
+
+关于HTTPS更多信息详见：[《一个故事讲完https》](https://mp.weixin.qq.com/s/StqqafHePlBkWAPQZg3NrA) [图解SSL/TLS协议](http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html) 
+
 ## XSS
-XSS是跨站脚本攻击，常见的XSS有两种
+XSS(`cross-site scripting`)是跨站脚本攻击，是指对Web页面注入脚本，使用JavaScript窃取用户信息，诱导用户操作等。
+常见的XSS有：**持久型**和**非持久型**
+
+- 持久型/储存型: 持久型也就是攻击的代码被服务端写入进**数据库**中，如果服务器没有正确进行过滤输出，那就会造成浏览这个页面的用户执行攻击代码。
+- 非持久型: 攻击者通过特定手法（如电子邮件），诱使用户去访问一个包含恶意代码的 URL，当受害者点击这些专门设计的链接的时候，恶意代码会直接在受害者主机上的浏览器执行，如`www.abc.com/?params=<script>alert(/xss/)</script>`。非持久型的攻击代码不会被存储到服务器的数据库中。
+
+防范XSS的方法：
+- 不可信任用户输入的内容，比如来自搜索框、富文本编辑器的用户内容。对输入和输入的信息进行转义。可以用[js-xss](https://github.com/leizongmin/js-xss) 之类的库进行处理。
+- 使用CSP(`Content Security Policy`)内容安全策略：实质就是白名单制度，开发者明确告诉客户端，哪些外部资源可以加载和执行。详见[《Content Security Policy 入门教程》](http://www.ruanyifeng.com/blog/2016/09/csp.html)
+
 ## CSRF
+
 
