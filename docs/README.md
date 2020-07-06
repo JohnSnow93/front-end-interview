@@ -31,4 +31,5 @@ footer: 小册面试题均来自于网络收集，如有侵权请联系我
 2. [HR面试常见问题](/interview/#hr面试常见问题)
 ## 其他镜像
 本小册默认部署在Netlify上，如果访问速度不佳，建议使用以下的镜像网站：
-- Geetlee
+- [https://johnsnow93.gitee.io/frontend-interview](https://johnsnow93.gitee.io/frontend-interview)
+- [https://front-end-interview.netlify.app/](https://front-end-interview.netlify.app/)
