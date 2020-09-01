@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/JohnSnow93/front-end-interview#readme",
   "devDependencies": {
-    "vuepress": "^1.4.1"
+    "vuepress": "^1.4.1",
+    "vuepress-plugin-comment": "^0.7.3"
   }
 }
