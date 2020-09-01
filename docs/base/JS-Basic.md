@@ -704,7 +704,7 @@ JSONP主要原理是通过浏览器`<script>`标签的`src`能够加载跨域脚
 
 对于简单请求，浏览器直接发出 `CORS` 请求。具体来说，就是会在请求头中，增加 `Origin` 字段用来说明本次请求来自哪个源。服务器根据这个值，决定是否同意这次请求。对于如果 `Origin` 指定的源，不在许可范围内，服务器会返回一个正常的 HTTP 回应。浏览器发现，这个回应的头信息没有包含 `Access-Control-Allow-Origin` 字段，就知道出错了，从而抛出一个错误，ajax 不会收到响应信息。如果成功的响应头会包含`Access-Control-Allow-Origin`、`Access-Control-Allow-Credentials`、`Access-Control-Expose-Headers` 等字段。
 
-非简单请求，浏览器会先发出一次预检请求(`HEAD`请求)，来判断该域名是否在服务器的白名单中，如果收到肯定回复后才会发起请求。
+非简单请求，浏览器会先发出一次预检请求(`OPTIONS`请求)，来判断该域名是否在服务器的白名单中，如果收到肯定回复后才会发起请求。
 
 详见：[跨域资源共享 CORS 详解](http://www.ruanyifeng.com/blog/2016/04/cors.html)
 

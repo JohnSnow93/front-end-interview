@@ -19,7 +19,7 @@ footer: 小册面试题均来自于网络收集，如有侵权请联系我
 1. [HTML面试题](./base/HTML/)
 2. [CSS基础](./base/CSS-Basic/)
 3. [CSS应用和布局](./base/CSS-Practice/)
-4. [JavaScript基础+笔试](./base/JavaScript/)
+4. [JavaScript基础+笔试](./base/JS-Basic/)
 ### 进阶
 1. [JS相关算法](./advance/Algorithm/)
 2. [React面试题](./advance/React/)
