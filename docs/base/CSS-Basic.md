@@ -13,7 +13,7 @@ title: CSS基础
 ![盒模型图片](./img/cssBox.gif)
 
 ### W3C标准盒模型和IE盒模型
-目前盒模型有两类：W3C标准盒模型和IE盒模型，他们之间的区别：
+目前盒模型的**尺寸计算方式**有两类：W3C标准盒模型和IE盒模型，他们之间的区别：
 - IE盒模型尺寸计算时，按照盒模型的`Border`(边框)的尺寸计算
 - W3C标准盒模型尺寸按照盒子`Content`(内容)的尺寸计算
 
@@ -273,7 +273,7 @@ div {
 ```
 ### 5. `border-image` 制作图片边框
 以四周都有边框为例，准备如下的6x6像素图片。
-[!border-image](./img/border-image.png)
+![border-image](./img/border-image.png)
 
 ```css
 @media screen and (-webkit-min-device-pixel-ratio: 2){ 

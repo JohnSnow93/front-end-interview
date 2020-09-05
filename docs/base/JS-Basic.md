@@ -180,7 +180,7 @@ ES5中执行上下文去除了`变量对象`和`活动对象`，取而代之的�
 ```javascript
 function Animal(){};
 Animal.prototype; // 原型
-Animal.prototype.constructor === fun; // true
+Animal.prototype.constructor === Animal; // true
 ```
 `prototype`原型对象上，有以下几个重要的属性
 - `constructor` 构造函数，指向拥有该原型对象的函数
