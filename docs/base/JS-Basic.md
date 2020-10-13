@@ -867,3 +867,94 @@ function myCreate(obj) {
 ::: tip
 `Object.create()`可以用于实现类式继承
 :::
+
+## 实现flat
+flat函数的作用是将嵌套的数组展开，如：
+```javascript
+flat([1, [2, [3, [4]]]])
+// 输出
+[1, 2, 3, 4]
+```
+flat函数有很多种实现，下面仅列举一些常见的：
+```javascript
+// 递归实现
+function flat(arr) {
+  const result = [];
+
+  for (const item of arr) {
+    if (Array.isArray(item)) {
+      result.push(...flat(item))
+    } else {
+      result.push(item);
+    }
+  }
+
+  return result;
+}
+
+// 非递归使用while实现
+function flat2(arr) {
+  const res = [];
+  const stack = arr.reverse().slice();
+
+  while (stack.length > 0) {
+    const top = stack.pop();
+    if (Array.isArray(top)) {
+      stack.push(...top.reverse());
+    } else {
+      res.push(top);
+    }
+  }
+  return res;
+}
+
+// 利用concat函数实现
+function flat3(arr) {
+  return [].concat(...arr.map(v => Array.isArray(v) ? [].concat(flat3(v)) : v));
+}
+```
+
+## 数组去重
+1. 利用ES6中的Set去重
+```javascript
+function unique(arr) {
+    return Array.from(new Set(arr))
+}
+```
+2. 利用ES6中Map的Key不能重复特点进行去重
+```javascript
+function unique(arr) {
+    let map = new Map();
+    let result = []
+    for (let item of arr) {
+        if (map.has(item)) {      // 判断是否存在该key值
+            map.set(item, true);
+        } else {
+            map.set(item, false);
+            result.push(item);
+        }
+    }
+    return result;
+}
+```
+3. 利用filter，在循环中判断数组元素是否为初次出现来过滤重复数组元素
+```javascript
+function unique( arr ){
+    // 如果新数组的当前元素的索引值 == 该元素在原始数组中的第一个索引，则返回当前元素
+    return arr.filter(function(item,index){
+        return arr.indexOf(item,0) === index;
+    });
+}
+```
+4. 利用数组includes判断元素是否重复
+```javascript
+function unique( arr ){
+    let result = [];
+    for(let item of arr){
+        if( !result.includes(item) ){
+            result.push(item);
+        }
+    }
+    return result;
+}
+```
