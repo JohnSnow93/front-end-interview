@@ -33,7 +33,7 @@ line-height: 300px; // 行高设置为父元素高度
 }
 .child{
   position: absolute;
-  top: 50%; // top、left、margin为百分比时参照父元素的高宽
+  top: 50%; // top、left、margin、padding 为百分比时参照父元素的高宽
   left: 50%;
   margin: -50px 0 0 -50px; // 50px是child高度的50%
 }
