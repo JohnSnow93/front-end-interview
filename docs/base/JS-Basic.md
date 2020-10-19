@@ -958,3 +958,39 @@ function unique( arr ){
     return result;
 }
 ```
+
+## 说说浏览器中的事件机制
+当在DOM中出发一些事件时，事件在DOM树中的传递会有两个过程：捕获过程和冒泡过程。
+
+- 首先发生的是捕获过程，事件会从最顶层的`window`向下传递，直到到达触发该DOM的元素。
+- 之后发生的是冒泡过程，事件会从触发事件的元素向上传递，如冒泡一般，传递到`window`为止
+
+不是所有事件都会冒泡，如blur、focus、mouseleave、mouseenter、resize、scroll等事件都是不会冒泡的。
+
+### 如何取消冒泡和取消事件的默认行为
+- 取消冒泡：`event.stopPropagation()`(chrome、firefox支持) 或 `event.cancelBubble = false`(IE支持)
+- `event.stopImmediatePropagation()` 当一个DOM上对某事件绑定了多个监听函数时，如果其中一个监听函数中调用了`stopImmediatePropagation`，则其他的监听函数将不会再执行。
+- 取消事件默认行为：`event.preventDefault()`
+
+### 什么是事件委托
+如果想给一个父容器内的大量子元素进行相同的事件绑定，则可以将监听器绑定在父容器上，而不是每个子元素单独设置监听器。这种技术称之为事件委托。
+
+事件委托利用了事件冒泡的特性，例子，有如下HTML代码：
+```html
+<ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+</ul>
+```
+通过事件委托绑定监听器：
+```javascript
+document.querySelector('ul').addEventListener((event) => { 
+    // do something here
+    console.log(event.target);
+    console.log(event.currentTarget)
+})
+```
+我们可以通过回调函数中的`event`对象来辨别出事件的来源：
+- `event.target` 实际触发该事件的节点
+- `event.currentTarget` 当前处理该事件的元素，即当前监听器所绑定的元素(在上面例子中即为父元素`<ul>`)
