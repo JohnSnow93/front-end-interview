@@ -985,7 +985,7 @@ function unique( arr ){
 ```
 通过事件委托绑定监听器：
 ```javascript
-document.querySelector('ul').addEventListener((event) => { 
+document.querySelector('ul').addEventListener('click', (event) => { 
     // do something here
     console.log(event.target);
     console.log(event.currentTarget)
