@@ -2,7 +2,7 @@ module.exports = {
     title: '前端面试小册',
     description: '为前端求职路上的你写的一本手册',
     cache: false,
-    // base: '/frontend-interview/', // 部署到gitee时需要配置此项
+    base: '/frontend-interview/', // 部署到gitee时需要配置此项
     themeConfig: {
         nav: [
             { text: '基础', link: '/base/HTML' },
@@ -33,6 +33,7 @@ module.exports = {
             '/advance/': [
               'Algorithm',
               'React',
+              'Vue',
               'DesignPattern',
               'NetworkAndSecurity',
               'ComplexQuestion'
