@@ -200,6 +200,16 @@ React Fiber是在React 16中引入的一个新的任务调和器(`reconciler`)�
 | 没有调度器(`dispatcher`)的概念  | 它有一个单独的调度器(`dispatcher`) |
 | 状态是不可变的 | 状态是可变的 |
 
+### Redux流程图示
+![Redux流程图示](./img/redux-flow.jpg)
+
+### Flux流程图示
+![Flux流程图示](./img/flux-flow.png)
+- 注意`action`是由`action-creators`创建，然后由调度器(`dispatcher`)进行配发
+- store的更新函数(用于改变store内的数据)会注册到`dispacher`上，由`dispatcher`触发这些回调并将`action`作为参数传入
+- `Store`内数据变化后会发出`change`事件，在`view`内可以通过注册监听回调来监听，然后触发`view`变化
+
+
 ## React中常用优化的方法有哪些
 - 使用`shouldComponentUpdate`避免重复渲染，在shouldComponentUpdate返回false时，组件不会更新
 - 使用`React.PureComponent`，PureComponent自带通过props和state的浅对比来实现 shouldComponentUpdate
