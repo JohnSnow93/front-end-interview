@@ -223,3 +223,14 @@ React Fiber是在React 16中引入的一个新的任务调和器(`reconciler`)�
 - 给列表中的元素添加key，帮助react跟踪元素的修改
 - 使用`React.lazy()`和webpack的code split来分割代码，延迟加载组件。
 - 使用Immutable方案
+
+## React-Router的路由有几种，区别是什么
+1. BrowserRouter
+`BrowserRouter`充分利用了HTML5中history新增的API(`pushState`、`replaceState`、`popstate`)，上面三个API的作用是改变浏览器地址栏里的URL，同时会改变浏览器的历史记录，但是不会真的去请求新的页面。例如：`www.abc.com/user/login`
+2. HashRouter
+`HashRouter`使用URL中的hash部分(`window.location.hash`)来让你的UI组件和路由保持一致。
+例如`www.abc.com/#/user/login`。如果需要兼容非常旧版本的浏览器，可以使用这种路由。
+3. MemoryRouter
+`MemoryRouter`将路由的记录和变化都保存在内存中，不会改变浏览器的地址栏。一般用于写测试或是非浏览器环境(比如ReactNative)
+
+## 说说React服务端渲染(`SSR`)
