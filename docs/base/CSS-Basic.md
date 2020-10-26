@@ -46,7 +46,7 @@ BFC(`Block Formatting Context`) 是 块级格式化上下文。BFC表示的是�
 - html根元素
 - float的值**不是**none
 - position属性为absolute或fixed
-- display属性为 inline-block、table-cell、flex、inline-flex
+- display属性为 inline-block、table-cell、flex、inline-flex、flow-root
 - overflow的值**不是**visible
 
 ### BFC的布局规则
