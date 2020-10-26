@@ -2,7 +2,9 @@
 
 ## Vue的响应式原理
 ### Vue2.x
+Object.defineProperty
 ### Vue3
+Proxy
 ## Vue的生命周期
 - beforeCreate
 - created: 实例创建后，可访问data、watcher、events、methods
@@ -20,9 +22,23 @@
 ## v-model的本质是什么
 ## .sync有用过吗
 ## vuex有哪些属性
-## vuex的action和mutation的区别
+- state
+- getters(类似计算属性)
+- mutations 改变state, mutation 必须是同步函数
+- actions: Action提交的是mutation，而不是直接变更状态。Action 可以包含任意异步操作。
+- modules：用于拆分store
+
 ## vue的diff运算
 ## v-show 和 v-if的区别
+- `v-show`：当隐藏结构时是在该结构的style中加上display:none，结构依然保留。
+- `v-if`：当隐藏结构时该结构会直接从整个dom树中移除；
+
+可见，在需要对元素进行频繁显示隐藏切换时，使用`v-show`更好
 ## vue中的路由有几种，各有什么区别
+- hash路由：使用 URL hash 值来作路由，兼容性好
+- history路由：依赖 HTML5 History API 和服务器配置
+- abstract路由：路由信息保存在内存中，适合非浏览器环境(如node)
 ## 为什么data要设置成函数
 ## computed和watch的区别
+- computed是计算属性，会缓求值结果，只有依赖变化时才会再次求值。
+- watch是监听，目的是在某些值变化时去执行相应的动作。
