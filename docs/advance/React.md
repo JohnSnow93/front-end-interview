@@ -234,3 +234,17 @@ React Fiber是在React 16中引入的一个新的任务调和器(`reconciler`)�
 `MemoryRouter`将路由的记录和变化都保存在内存中，不会改变浏览器的地址栏。一般用于写测试或是非浏览器环境(比如ReactNative)
 
 ## 说说React服务端渲染(`SSR`)
+`SSR(server side render)`是指用户在访问单页应用(`SPA`)时，由服务端先渲染好组件的首屏`HTML`，并返回给客户端。服务端渲染可以缩短首屏渲染时间，让单页应用对SEO更加友好。
+
+
+React服务端渲染流程大致如下：
+1. 服务端获得请求的URL
+2. 服务端运行React组件代码(`renderToString`)生成HTML
+3. 发送HTML给浏览器
+4. 浏览器接收内容显示
+5. 浏览器加载JS
+6. JS中的React代码在浏览器中重新执行(进行`hydrate`)
+7. JS中的React代码接管页面操作
+
+### 什么是`hydrate`
+`hydrate`(注水)：服务端使用`renderToString`渲染出的字符串代码(html)并没有事件绑定，需要在客户端再运行一次React代码(js)进行事件绑定，但是客户端重复运行React代码就会重复生成字符串模板，`hydrate`可以复用服务端已经生成的字符串模板，避免重复渲染。
