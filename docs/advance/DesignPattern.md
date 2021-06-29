@@ -83,7 +83,7 @@ const googleMap = {
  }
 };
 const baiduMap = {
- show: function(){
+  display: function(){
   console.log( '开始渲染百度地图' );
  }
 };
