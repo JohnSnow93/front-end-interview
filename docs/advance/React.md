@@ -186,10 +186,29 @@ React Fiber是在React 16中引入的一个新的任务调和器(`reconciler`)�
 
 引入`Fiber`之后，可以将`reconcile`拆分成更小的任务，`reconcile`过程可以暂停，分阶段完成。并将任务按照优先等级划分，优先执行高优先级的任务(比如浏览器渲染任务)。
 
+## `React`的`Reconcilation`是什么
+`Reconciliation(调和)`是指React将虚拟DOM同步到真实DOM的过程。
+
+触发调和的方式有以下几种：
+- `ReactDom.render()`函数 和`ReactNativeRenderer.render()`函数
+- `setState()`函数
+- `forceUpdate()`函数的调用
+- `componentWillMount` 或 `componentWillReceiveProp` 中直接修改了`state`
+- `hooks`中的`useReducer` 和 `useState` 返回的钩子函数被执行
+
+调和的过程可以分为 `Render`阶段 和 `Commit`阶段：
+1. `Render`阶段：创建新的虚拟DOM树和当前的虚拟DOM树进行对比(`diff`)
+2. `Commit`阶段：根据`diff`的结果将变化批量应用到真实DOM上
+
 ## React Hooks相对Class组件有什么优势？
 - Hooks让函数组件也可以有自己的状态
-- 更容易复用代码，可以将业务逻辑封装/副作用到自定义Hooks中
-- `useEffect`相对于`class`组件简化了生命周期，代码风格更加简洁
+- 更容易复用代码，可以Redux将业务逻辑封装/副作用到自定义Hooks中
+- 相对于`class`组件简化了生命周期，代码风格更加简洁
+
+## `useEffect`和`useLayoutEffect`区别
+- `useEffect`在组件渲染到屏幕之后执行。(浏览器已经渲染完成，变化已映射到真实DOM上)
+- `useLayoutEffect`会在所有的 DOM 变更之后同步调用，此时内存中的真实DOM已经变更(注意，由于JS线程和渲染渲染线程是互斥的，此时浏览还没有立刻开始渲染)，调用时机等同于`class`组件的`componentDidMount`和`componentDidUpdate`
+- 修改DOM相关的操作建议放在`useLayoutEffect`中进行，由于此时浏览器还没有开始渲染，可以减少一次重绘
 
 ## 说一说Redux和Flux，以及他们之间的不同
 |  Redux   | Flux  |
@@ -202,6 +221,7 @@ React Fiber是在React 16中引入的一个新的任务调和器(`reconciler`)�
 
 ### Redux流程图示
 ![Redux流程图示](./img/redux-flow.jpg)
+- `reducer`需要是纯函数，纯函数是指函数传入相同的参数，每次的调用结果都是一致的，没有额外的副作用。
 
 ### Flux流程图示
 ![Flux流程图示](./img/flux-flow.png)
