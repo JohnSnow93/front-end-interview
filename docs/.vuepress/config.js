@@ -34,6 +34,7 @@ module.exports = {
               'Algorithm',
               'React',
               'Vue',
+              'TypeScript',
               'Webpack',
               'DesignPattern',
               'NetworkAndSecurity',

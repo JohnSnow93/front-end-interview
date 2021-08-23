@@ -995,3 +995,10 @@ document.querySelector('ul').addEventListener('click', (event) => {
 我们可以通过回调函数中的`event`对象来辨别出事件的来源：
 - `event.target` 实际触发该事件的节点
 - `event.currentTarget` 当前处理该事件的元素，即当前监听器所绑定的元素(在上面例子中即为父元素`<ul>`)
+
+## 前端遇到的错误类型有哪些，如何监控错误
+- JS代码执行出错
+- 未捕获的Promise错误
+- 资源加载失败产生的错误
+
+JS代码执行出错和资源加载失败产生的错误可以用`window.addEventListener('error')`检测到，未捕获的Promise错误可以用`window.addEventListener('unhandledrejection')`检测。

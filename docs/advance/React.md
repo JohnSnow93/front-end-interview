@@ -186,7 +186,7 @@ React Fiber是在React 16中引入的一个新的任务调和器(`reconciler`)�
 
 引入`Fiber`之后，可以将`reconcile`拆分成更小的任务，`reconcile`过程可以暂停，分阶段完成。并将任务按照优先等级划分，优先执行高优先级的任务(比如浏览器渲染任务)。
 
-## `React`的`Reconcilation`是什么
+## React的Reconcilation是什么
 `Reconciliation(调和)`是指React将虚拟DOM同步到真实DOM的过程。
 
 触发调和的方式有以下几种：
@@ -205,7 +205,7 @@ React Fiber是在React 16中引入的一个新的任务调和器(`reconciler`)�
 - 更容易复用代码，可以Redux将业务逻辑封装/副作用到自定义Hooks中
 - 相对于`class`组件简化了生命周期，代码风格更加简洁
 
-## `useEffect`和`useLayoutEffect`区别
+## useEffect和useLayoutEffect区别
 - `useEffect`在组件渲染到屏幕之后执行。(浏览器已经渲染完成，变化已映射到真实DOM上)
 - `useLayoutEffect`会在所有的 DOM 变更之后同步调用，此时内存中的真实DOM已经变更(注意，由于JS线程和渲染渲染线程是互斥的，此时浏览还没有立刻开始渲染)，调用时机等同于`class`组件的`componentDidMount`和`componentDidUpdate`
 - 修改DOM相关的操作建议放在`useLayoutEffect`中进行，由于此时浏览器还没有开始渲染，可以减少一次重绘
@@ -266,5 +266,5 @@ React服务端渲染流程大致如下：
 6. JS中的React代码在浏览器中重新执行(进行`hydrate`)
 7. JS中的React代码接管页面操作
 
-### 什么是`hydrate`
+### 什么是hydrate
 `hydrate`(注水)：服务端使用`renderToString`渲染出的字符串代码(html)并没有事件绑定，需要在客户端再运行一次React代码(js)进行事件绑定，但是客户端重复运行React代码就会重复生成字符串模板，`hydrate`可以复用服务端已经生成的字符串模板，避免重复渲染。
