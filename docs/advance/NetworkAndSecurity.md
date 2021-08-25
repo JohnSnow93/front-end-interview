@@ -98,6 +98,11 @@ HTTPS 指的是超文本传输安全协议，HTTPS 是基于 HTTP 协议的，�
 
 关于HTTPS更多信息详见：[《一个故事讲完https》](https://mp.weixin.qq.com/s/StqqafHePlBkWAPQZg3NrA) [图解SSL/TLS协议](http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html) 
 
+### GET请求和POST请求有什么区别
+- GET请求一般用户获取数据，POST请求一般用于提交数据
+- GET请求的参数只能放在URL里，POST请求参数可以放到请求体中，所以POST请求可以发送更多类型的数据，如二进制数据
+- HTTP协议规定，GET请求是幂等的，即多次请求应返回相同结果
+
 ## XSS
 XSS(`cross-site scripting`)跨站脚本攻击，是指对Web页面注入脚本，使用JavaScript窃取用户信息，诱导用户操作等。
 常见的XSS有：**持久型**和**非持久型**
