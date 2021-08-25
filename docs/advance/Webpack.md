@@ -71,3 +71,16 @@ class BasicPlugin{
 module.exports = BasicPlugin;
 ```
 更多关于`Plugin`的信息请参考：[Webpack原理-编写Plugin](https://segmentfault.com/a/1190000012840742) 、[Plugin API](https://www.webpackjs.com/api/plugins/)
+
+## Webpack有哪些优化手段
+1. 缓存：webpack5自带缓存系统，可以选择在内存中缓存`memory`和在文件系统中做持久化缓存`filesystem`(一般在production模式下使用)。若是webpack4及以下，可以使用如下缓存手段
+    - `cache-loader`在一些性能开销较大的`loader`之前添加此`loader`，以将结果缓存到`node_modules/.cache/cache-loader`。
+    - `DllReferencePlugin`将变化不频繁的第三方库提前单独打包成动态链接库，提高正式打包时的速速。
+    - `hard-source-webpack-plugin`会在第一次打包时将缓存放在`node_modules/.cache/hard-source`，配置比`DllReferencePlugin`更简单，推荐使用，`vue-cli`和`create-react-app`均使用了这个插件。
+    - 注意，以上三款功能类似，并不推荐同时使用。
+2. 多线程打包：使用`happy-pack`或`thread-loader`可以多线程打包，加快速度。(均配合loader使用)
+3. 使用`include`和`exclude`明确告诉`loader`那些文件需要打包，缩小编译范围。
+5. 将一些第三方库通过CDN引入，并将其配置到`externals`中(配置到`externals`中的库说明其来自于外部，不会进行打包)
+6. 抽离公共代码，通过配置`optimization.splitChunks`来将公共的代码抽离出来，防止代码被重复打包
+7. 合理使用`treeShaking`，ES6模块`import/export`基于静态分析，所以才能`tree-shaking`
+8. `webpack-bundle-analyzer`可视化分析打包结果。
