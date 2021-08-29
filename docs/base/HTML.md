@@ -155,8 +155,8 @@ WebSocket 是 HTML5 开始提供的一种在单个 TCP 连接上进行**全双�
 
 ## 说说script标签的async和defer属性有什么不同
 在浏览器解析到`<script>`标签时，会暂停解析和渲染文档，转而加载`<script>`内的脚本并解析执行，`async`和`defer`可以让`<script>`在**加载**同时不阻塞DOM的解析。
-- `defer` 脚本延迟到文档解析完后再执行
-- `async` 加载完成后立刻执行（不论文档是否解析完毕）
+- `defer` 脚本延迟到文档解析完后再执行，会在window的`load`事件之前执行
+- `async` 加载完成后立刻执行（不论文档是否解析完毕），会在`DOMContentLoaded`事件之前执行
 
 可以看出，有`async`属性的`<script>`执行时机是其加载结束后，如果有多个带`async`属性的`<script>`，他们的执行顺序不能得到保证。如果脚本之间有依赖关系，则不建议使用`async`属性。
 
