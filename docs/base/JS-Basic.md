@@ -13,6 +13,7 @@ title: JavaScript基础
 - `boolean`
 - `number`
 - `symbol`(ES6中新增)
+- `bigint`(ES6中新增)
 
 1种引用类型：
 - `object`
