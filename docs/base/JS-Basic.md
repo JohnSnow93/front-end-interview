@@ -6,7 +6,7 @@ title: JavaScript基础
 [[toc]]
 
 ## JavaScript数据类型有哪些
-6种基础数据类型：
+7种基础数据类型：
 - `undefined`
 - `null`
 - `string`
@@ -242,9 +242,9 @@ function Son(id) {
   Father.call(this, id); // 继承父类
 }
 ```
-有点是可以对父类构造函数进行传参，缺点是父类`prototype`上的方法没有被子类继承到。
+优点是可以对父类构造函数进行传参，缺点是父类`prototype`上的方法没有被子类继承到。
 
-3. 组合继承，结合了上面两种继承方法的优点
+3. 组合继承，结合了上面两种继承方法的优点，但是对父类实例化了两次
 ```javascript
 // 声明父类
 function Father(id) {
@@ -262,6 +262,7 @@ function Son(id) {
 }
 Son.prototype = new Father(); // 继承父类的方法
 ```
+
 
 4. 原型式继承，利用JS自带的原型链实现继承，缺点是父对象的共有属性如果是引用类型的依然会被所有子类的实例共享。
 ```javascript
@@ -332,6 +333,9 @@ function Son(id) {
 }
 // 寄生式继承父类的原型
 inheritPrototype(Son, Father)
+// 利用Object.create也可以实现
+Son.prototype = Object.create(Father.prototype);
+Son.prototype.constructor = Son; // 修正constructor
 ```
 
 ## 判断一个对象的类型有哪些方法
