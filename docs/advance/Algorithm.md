@@ -1,7 +1,7 @@
 # JS相关算法
 
 [[toc]]
-# 排序算法
+
 ## 冒泡排序
 ```javascript
 function bubble(array) {
@@ -37,7 +37,7 @@ function quickSort(arr, left, right) {
     return arr;
 }
 ```
-# 斐波那契数列
+## 斐波那契数列
 递归版
 ```javascript
 function fib(n) {
