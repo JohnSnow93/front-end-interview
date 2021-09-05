@@ -127,3 +127,41 @@ CSRF(`cross-site request forgery`)跨站请求伪造，攻击者构造出一个�
 - 验证 HTTP Referer 字段。在 HTTP 头中的 Referer 字段，它记录了该 HTTP 请求的来源地址，可以用它验证请求是否是来自可信的域名。
 - Token验证。在每次请求中带上Token，在服务端验证Token的有效性。Token可以放在HTTP请求头中、请求的URL中等。
 
+## HTTP缓存
+HTTP缓存可以简单分为强缓存和协商缓存：
+- 强缓存(本地缓存)是浏览器自发通过http头中的`Expires`和`Cache-Control`两个字段来判断并进行缓存的
+- 协商缓存 是由服务器确定缓存资源是否可用，当强缓存失效时，浏览器会尝试进行协商缓存。
+
+类型 | 状态码 | 发送请求到服务器
+---|--- |---
+强缓存 |  200（from cache）| 否，直接从缓存取
+协商缓存 |  304（not modified） | 是，正如其名，通过服务器来告知缓存是否可用
+
+### 强缓存相关的header字段
+1. `expires`是http 1.0中的规范，表示缓存失效的时间戳，是一个GMT格式的时间字符串，如果请求发送在`expires`之前，则认为本地缓存是有效的
+2. `cache-control: max-age=number`  是http 1.1中的规范，主要通过`max-age来判断`，它是一个相对值，单位为秒，资源第一次的请求时间和`Cache-Control`设定的有效期，计算出一个资源过期时间，再拿这个过期时间跟当前的请求时间比较。`Cache-Control`还有下面几个可选值
+    - `no-cache` 不使用本地缓存(即强缓存)，但是还要使用协商缓存
+    - `no-store` 静止浏览器缓存数据、强缓存和协商缓存都不允许
+    - `public` 可以被所用用户缓存，包括终端用户和CDN等
+    - `private` 只能被终端用户的浏览器缓存，不允许CDN等中继缓存服务器对其缓存
+
+如果cache-control与expires同时存在的话，**`cache-control`的优先级高于`expires`**
+
+Chrome系列的浏览器在按下Ctrl+F5进行刷新时，请求头会加上 Cache-Control:no-cache，Pragma:no-cache 表示客户端本次不接受缓存的本地资源
+### 协商缓存的相关header字段
+协商缓存是由服务器确定缓存资源是否可用。主要涉及到两组header字段：
+1. `Last-Modified`和`If-Modified-Since`
+  - 第一次请求时，服务器返回的响应头中带有`Last-Modified`，表示资源 最后一次修改的时间
+  - 再次请求资源时，请求头中会带上`If-Modified-Since`，且该值为上一次接收到的响应头中的`Last-Modified`的值
+  - 如果资源无变化，则服务器返回`304`，且这次响应头不再带`Last-Modified`.
+  - 如果资源变化，就正常响应内容
+2. `Etag`和`If-None-Match`
+`Etag/If-None-Match` 这两个值是由服务器生成的每个资源的唯一标识字符串，只要资源有变化就这个值就会改变；其判断过程与`Last-Modified/If-Modified-Since`类似，与`Last-Modified`不一样的是，当服务器返回`304 Not Modified`的响应时，由于ETag重新生成过，response header中还会把这个ETag返回，即使这个ETag跟之前的没有变化。
+
+`Last-Modified`与`ETag`是可以一起使用的，服务器会优先验证ETag，一致的情况下，才会继续比对Last-Modified，最后才决定是否返回304
+
+### Etag与Last-Modified
+- Last-Modified的最小时间单位是秒，Etag比Last-Modified更能精准地感知文件变化
+- 档资源仅修改时间发生变化，其内容没变，使用Etag可以避免重新请求资源
+- Etag是根据文件内容生成，会提高服务器开销
+- ETag的优先级比Last-Modified高
