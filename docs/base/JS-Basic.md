@@ -874,7 +874,7 @@ function myCreate(obj) {
 `Object.create()`可以用于实现类式继承
 :::
 
-## 实现flat
+## 实现数组的flat
 flat函数的作用是将嵌套的数组展开，如：
 ```javascript
 flat([1, [2, [3, [4]]]])
@@ -918,6 +918,31 @@ function flat2(arr) {
 function flat3(arr) {
   return [].concat(...arr.map(v => Array.isArray(v) ? [].concat(flat3(v)) : v));
 }
+```
+
+## 实现对象的flatten //TODO
+```js
+const obj = {
+ a: {
+        b: 1,
+        c: 2,
+        d: {e: 5}
+    },
+ b: [1, 3, {a: 2, b: 3}],
+ c: 3
+}
+
+// flatten(obj) 结果返回如下
+// {
+//  'a.b': 1,
+//  'a.c': 2,
+//  'a.d.e': 5,
+//  'b[0]': 1,
+//  'b[1]': 3,
+//  'b[2].a': 2,
+//  'b[2].b': 3
+//   c: 3
+// }
 ```
 
 ## 数组去重
@@ -964,6 +989,8 @@ function unique( arr ){
     return result;
 }
 ```
+
+## 手写Promise.all和Promise.race//TODO
 
 ## 说说浏览器中的事件机制
 当在DOM中出发一些事件时，事件在DOM树中的传递会有两个过程：捕获过程和冒泡过程。
