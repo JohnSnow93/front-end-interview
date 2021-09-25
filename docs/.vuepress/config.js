@@ -38,7 +38,8 @@ module.exports = {
               'Webpack',
               'DesignPattern',
               'NetworkAndSecurity',
-              'ComplexQuestion'
+              'ComplexQuestion',
+              'Other'
             ],
             '/interview/': [''],
             // fallback
