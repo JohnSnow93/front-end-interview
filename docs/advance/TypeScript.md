@@ -12,6 +12,14 @@
 - 增加了部分编译时间
 
 ## type和interface有什么区别
+### type和interface共同点
+1. `type`和`interface`都可以描述函数和对象
+2. `type`和`interface`可以相互扩展
+### type和interface区别
+1. `interface`扩展通过`extend`继承实现，`type`扩展通过交叉类型`&`操作符实现
+2. `type`可以重命名基本类型，`interface`不能
+3. `interface`可以重复定义多次，多次的声明会合并。`type`重复定义多次则会报错。
+
 ## void 和 undefined 有什么区别？
 ## 什么是 never 类型？
 ## readonly 和 const 有什么区别
